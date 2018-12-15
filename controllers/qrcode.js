@@ -2,10 +2,6 @@ const accessTocken = require('../utils/access-token');
 const request = require('request');
 const fs = require('fs');
 const path = require('path');
-const Survey = require('../models/survey');
-const qrcode = require('../utils/qrcode');
-const download = require('../utils/download-file');
-const uuid = require('node-uuid');
 const logger = require('../utils/logger').logger('controller_qrcode');
 
 
