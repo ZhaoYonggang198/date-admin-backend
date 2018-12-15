@@ -8,11 +8,11 @@ const auth = async (ctx) => {
       params: {
         appid: config.appid,
         secret: config.secret,
-        js_code: ctx.query.code,
+        js_code: ctx.request.body.code,
         grant_type: 'authorization_code'
       }
     });
-
+    
     ctx.response.type = "application/json";
     ctx.response.status = 200;
     ctx.response.body = {
