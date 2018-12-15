@@ -1,5 +1,6 @@
 const config = require('../config');
 const logger = require('../utils/logger').logger('userInfo');
+const axios = require('axios')
 
 const auth = async (ctx) => {
   try {
