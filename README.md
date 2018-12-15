@@ -1,19 +1,20 @@
-# Asstbot
+# Date
 
-## msg from client
+## auth
 
-```js
+``` post http://[web]/auth```
 
-const loginMsg = {
-    from : {
-        id : 'xxxxx'
-    },
-    type : 'login',
-    data : {
-		code : '12345', // optional
-		isNew: true   // optional, 是否新注册用户
-    }
-};
+
+Request Parameter
+
+```
+{
+	"code": 'code get by wx.login()'
+}
+```
+
+
+
 
 const dialogStartMsg = {
     from : {

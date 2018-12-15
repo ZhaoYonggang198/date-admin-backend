@@ -1,4 +1,4 @@
-const accessTocken = require('../utils/access-tocken');
+const accessTocken = require('../utils/access-token');
 const request = require('request');
 const fs = require('fs');
 const path = require('path');
@@ -79,8 +79,8 @@ async function getQrCodeImage(url, scene, source) {
 
 async function getQrCode(ctx) {
     try {
-        const tocken = await accessTocken.getTocken();
-        const url = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + tocken;
+        const token = await accessToken.getToken();
+        const url = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + token;
 
         // const image = await getProfileQrCodeImage(url, ctx.query.scene)
         const image = await getQrCodeImage(url, ctx.query.scene, ctx.query.source)

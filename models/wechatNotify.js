@@ -1,12 +1,12 @@
 const postJson = require('../utils/postjson')
 const config = require('../config');
-const accessTocken = require('../utils/access-tocken');
+const accessToken = require('../utils/access-token');
 const logger = require('../utils/logger').logger('wechatNotify');
 const arangoDb = require("./arango.js")
 
 async function sendTemplateMsg (openId, templateId, page, data) {
-  const tocken = await accessTocken.getTocken()
-  const url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + tocken
+  const token = await accessTocken.getToken()
+  const url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + token
   const formId = await arangoDb.getFormId(openId)
 
   if (!formId) {
