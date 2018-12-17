@@ -32,10 +32,10 @@ const updateAnswer = async (ctx) => {
 
 const getQuestionAnswer = async (ctx) => {
   try {
-    const filename = await questionAnswer(ctx.query.session_key);
+    const data = await questionAnswer(ctx.query.session_key);
     ctx.response.type = "application/json";
     ctx.response.status = 200;
-    ctx.response.body = {url : filename};
+    ctx.response.body = {data};
   } catch (err) {
       ctx.response.status = 404;
       ctx.response.type = "application/json";
