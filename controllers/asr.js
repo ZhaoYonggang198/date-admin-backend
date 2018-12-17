@@ -1,7 +1,5 @@
 const logger = require('../utils/logger').logger('controller-asr');
-const uuid = require('node-uuid');
 const fs = require('fs');
-const path = require('path');
 const config = require('../config')
 const ffmpeg = require('fluent-ffmpeg');
 const AipSpeech = require("baidu-aip-sdk").speech;
@@ -44,8 +42,8 @@ function transMp3ToWav(mp3FilePath) {
 
 async function getAsrResult(ctx) {
     try {
-        const {filepath, url} = await saveFile(ctx.request.body.files.audio, 'asr');
-        const wavPath = await transMp3ToWav(filepath);
+        const {filePath, url} = await saveFile(ctx.request.body.files.audio, 'asr');
+        const wavPath = await transMp3ToWav(filePath);
         const asrResult = await audioToAsr(wavPath);
         ctx.response.type = "application/json";
         ctx.response.status = 200;

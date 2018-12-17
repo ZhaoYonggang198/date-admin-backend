@@ -19,7 +19,7 @@ function saveFile(file, type) {
       upStream.on('finish', () => {
           upStream.close( ()=> {
             logger.debug(`save file success ${filePath}`)
-            resolve({filepath, url: `${staticResourcePathWeb}${type}/${fileName}`});
+            resolve({filePath, url: `${staticResourcePathWeb}${type}/${fileName}`});
           });
       });
       reader.pipe(upStream);
