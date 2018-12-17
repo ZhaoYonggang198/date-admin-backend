@@ -1,4 +1,3 @@
-
 const logger = require('../utils/logger').logger('arangoDb');
 const ArangoDB = require('./arangoDb')
 const config = require('../config');
