@@ -4,7 +4,7 @@ const ArangoDB = require('./arangoDb')
 const config = require('../config');
 const aql = require('arangojs').aql
 
-const db = new ArangoDB(config.arango.userInfo).getDatabase()
+const db = new ArangoDB(config.arango.userInfo).database
 
 const userIdsCollection = db.collection("userIds")
 
