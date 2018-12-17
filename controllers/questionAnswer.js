@@ -7,6 +7,9 @@ const questionAnswer = async (openid) => {
   return questions.map(item => {
     var questionId = item._key
     var qa = Object.assign(item, {questionId})
+    delete qa._id
+    delete qa._rev
+    delete qa._key
     var answer = answers.filter(ans => {
       return ans.questionId === questionId
     })
