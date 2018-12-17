@@ -1,4 +1,4 @@
-const logger = require('../utils/logger').logger('arangoDb');
+const logger = require('../utils/logger').logger('userInfo');
 const ArangoDB = require('./arangoDb')
 const config = require('../config');
 const aql = require('arangojs').aql
