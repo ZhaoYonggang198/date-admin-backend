@@ -11,7 +11,7 @@ async function postAudio(ctx) {
         ctx.response.status = 404;
         ctx.response.type = "application/json";
         ctx.response.body = {error: err.toString()};
-        logger.error('post audio failed: ' + err);
+        logger.error('post audio failed: ' + err.message);
     }
 }
 
@@ -25,7 +25,7 @@ async function postVideo(ctx) {
         ctx.response.status = 404;
         ctx.response.type = "application/json";
         ctx.response.body = {error: err.toString()};
-        logger.error('post video failed: ' + err);
+        logger.error('post video failed: ' + err.message);
     }
 }
 
@@ -39,7 +39,7 @@ async function postImage(ctx) {
         ctx.response.status = 404;
         ctx.response.type = "application/json";
         ctx.response.body = {error: err.toString()};
-        logger.error('post image failed: ' + err);
+        logger.error('post image failed: ' + err.message);
     }
 }
 
