@@ -100,8 +100,12 @@ async function getWechatInfo(openid) {
 
 const userProfileCollection = new Collection(db, 'UserProfile')
 
-async function saveUserProfile(openid, userProfile) {
+async function saveUserProfile (openid, userProfile) {
   return await userProfileCollection.createDocument(openid, userProfile)
+}
+
+async function getUserProfile (openid) {
+  return await userProfileCollection.getDocument(openid)
 }
 
 
@@ -109,5 +113,6 @@ module.exports = {
   saveOpenid,
   saveWechatInfo,
   getWechatInfo,
-  saveUserProfile
+  saveUserProfile,
+  getUserProfile
 }
