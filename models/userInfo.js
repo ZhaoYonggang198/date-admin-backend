@@ -26,7 +26,7 @@ class Collection {
 
     return await this.db.query(query).then(cursor => cursor.next())
       .then(doc => {
-        logger.debug(`create document for ${this.collectionName} success: ${doc}`)
+        logger.debug(`create document for ${this.collectionName} success: ${JSON.stringify(doc)}`)
         return doc
       },
       err => {
@@ -45,7 +45,7 @@ class Collection {
 
     return await this.db.query(query).then(cursor => cursor.next())
       .then(doc => {
-        logger.debug(`update document for ${this.collectionName} success: ${doc}`)
+        logger.debug(`update document for ${this.collectionName} success: ${JSON.stringify(doc)}`)
         return doc
       },
       err => {
@@ -94,6 +94,10 @@ async function saveWechatInfo(openid, wechat) {
   return await wechatCollection.createDocument(openid, wechat)
 }
 
+async function getWechatInfo(openid) {
+  return await wechatCollection.getDocument(openid)
+}
+
 const userProfileCollection = new Collection(db, 'UserProfile')
 
 async function saveUserProfile(openid, userProfile) {
@@ -104,5 +108,6 @@ async function saveUserProfile(openid, userProfile) {
 module.exports = {
   saveOpenid,
   saveWechatInfo,
+  getWechatInfo,
   saveUserProfile
 }
