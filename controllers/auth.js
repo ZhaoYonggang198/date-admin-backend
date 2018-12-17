@@ -1,6 +1,7 @@
 const config = require('../config');
 const logger = require('../utils/logger').logger('userInfo');
 const axios = require('axios')
+const UserInfo = require('../models/userInfo')
 
 const auth = async (ctx) => {
   try {
@@ -12,6 +13,8 @@ const auth = async (ctx) => {
         grant_type: 'authorization_code'
       }
     });
+
+    UserInfo.saveOpenid(result.data.openid)
     
     ctx.response.type = "application/json";
     ctx.response.status = 200;

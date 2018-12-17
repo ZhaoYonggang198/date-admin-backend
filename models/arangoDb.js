@@ -17,10 +17,6 @@ class ArangoDB {
     get getDatabase() {
         return this.db
     }
-
-    get collection(col) {
-        return this.db.collection(col)
-    }
 }
 
 module.exports = ArangoDB
