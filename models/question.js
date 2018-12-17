@@ -9,7 +9,7 @@ const QuestionCollection = db.collection('Questions')
 
 const AnswerCollection = db.collection('Answers')
 
-const questionList = async => {
+const questionList = async () => {
   const query = aql`
     for doc in ${QuestionCollection}
       return doc
