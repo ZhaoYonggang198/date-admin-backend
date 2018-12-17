@@ -6,14 +6,14 @@ const aql = require('arangojs').aql
 
 const db = new ArangoDB(config.arango.userInfo).database
 
-const userIdsCollection = db.collection("userIds")
+const userIdsCollection = db.collection("UserIds")
 
 async function saveOpenid(openid) {
   const query = aql`
     UPSERT {openid: ${openid}}
-    INSERT {openid: ${openid}, status: "unregister", logins: 1, dataCreated: DATE_NOW()}
+    INSERT {openid: ${openid}, status: "unregister", logins: 1, dataCreated: DATE_ISO8601(DATE_NOW())}
     UPDATE {openid: ${openid}, logins: OLD.logins + 1} in ${userIdsCollection}
-    return {doc: New, type: OLD ? 'update' : 'insert'}
+    return {doc: NEW, type: OLD ? 'update' : 'insert'}
   `
   return await db.query(query).then(cursor => cursor.next())
     .then(doc => {
@@ -21,7 +21,8 @@ async function saveOpenid(openid) {
       return doc
     },
     err => {
-      logger.error('saveOpenid fail')
+      logger.error('saveOpenid fail ', err.message)
+      logger.error(err)
     })
 }
 
