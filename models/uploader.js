@@ -1,5 +1,6 @@
 const logger = require('../utils/logger').logger('uploader');
 const config = require('../config');
+const fs = require('fs')
 
 const staticResourcePath = config.static_resource_path
 const staticResourcePathWeb = config.static_resource_web
