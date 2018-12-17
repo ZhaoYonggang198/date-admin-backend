@@ -30,7 +30,7 @@ const putAnswer = async (openid, questionId, answer) => {
     UPSERT {openid: ${openid}, questionId: ${questionId}}
     INSERT {openid: ${openid}, questionId: ${questionId}, answer: ${answer}, dataCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
     UPDATE {openid: ${openid}, questionId: ${questionId}, answer: ${answer}, updates: OLD.updates + 1, dateUpdate: DATE_ISO8601(DATE_NOW())}
-    IN ${tAnswerCollection}
+    IN ${AnswerCollection}
     return NEW
   `
   return await db.query(query).then(cursor => cursor.next())
