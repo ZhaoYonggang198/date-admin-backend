@@ -44,7 +44,7 @@ function transMp3ToWav(mp3FilePath) {
 
 async function getAsrResult(ctx) {
     try {
-        const {filepath, url} = await saveFile(ctx.request.body.files.audio, 'static/audio');
+        const {filepath, url} = await saveFile(ctx.request.body.files.audio, 'asr');
         const wavPath = await transMp3ToWav(filepath);
         const asrResult = await audioToAsr(wavPath);
         ctx.response.type = "application/json";
