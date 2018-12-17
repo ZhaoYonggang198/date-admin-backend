@@ -27,7 +27,7 @@ const questionList = async () => {
 
 const putAnswer = async (openid, questionId, answer) => {
   const query = aql`
-    UPSERT {openid: ${openid}, questionId: ${questionId}}
+    UPSERT {openid: ${openid}, questionId: "${questionId}" }
     INSERT {openid: ${openid}, questionId: ${questionId}, answer: ${answer}, dataCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
     UPDATE {openid: ${openid}, questionId: ${questionId}, answer: ${answer}, updates: OLD.updates + 1, dateUpdate: DATE_ISO8601(DATE_NOW())}
     IN ${AnswerCollection}
@@ -39,6 +39,7 @@ const putAnswer = async (openid, questionId, answer) => {
       return doc
     },
     err => {
+      logger.error(query)
       logger.error('update answer fail ', err.message)
     })
 }

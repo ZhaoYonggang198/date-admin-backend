@@ -5,6 +5,7 @@ const path = require('path');
 const config = require('../config')
 const ffmpeg = require('fluent-ffmpeg');
 const AipSpeech = require("baidu-aip-sdk").speech;
+const saveFile = require('../models/uploader').saveFile
 
 function audioToAsr(audioPath) {
     const client = new AipSpeech(config.baidu_api_id, config.baidu_api_key, config.baidu_secret_key);
@@ -41,33 +42,14 @@ function transMp3ToWav(mp3FilePath) {
     });
 }
 
-function saveFile(file, path) {
-    return new Promise( (resolve, reject) => {
-        const reader = fs.createReadStream(file.path);
-        const ext = file.name.split('.').pop();
-        if (ext != 'mp3') {
-            throw reject('not support file type : ' + ext);
-        }
-        const fileName = `${uuid.v1()}.${ext}`;
-        const filePath = `${path}/${fileName}`;
-        const upStream = fs.createWriteStream(filePath);
-        upStream.on('finish', () => {
-            upStream.close( ()=> {
-                resolve(fileName);
-            });
-        });
-        reader.pipe(upStream);
-    })
-}
-
 async function getAsrResult(ctx) {
     try {
-        const mp3FileName = await saveFile(ctx.request.body.files.audio, 'static/audio');
-        const wavPath = await transMp3ToWav('static/audio/' + mp3FileName);
+        const {filepath, url} = await saveFile(ctx.request.body.files.audio, 'static/audio');
+        const wavPath = await transMp3ToWav(filepath);
         const asrResult = await audioToAsr(wavPath);
         ctx.response.type = "application/json";
         ctx.response.status = 200;
-        ctx.response.body = {url : '/audio/' + mp3FileName, result : asrResult};
+        ctx.response.body = {url, result : asrResult};
     } catch (err) {
         ctx.response.status = 404;
         ctx.response.type = "application/json";

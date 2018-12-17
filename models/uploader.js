@@ -19,12 +19,13 @@ function saveFile(file, type) {
       upStream.on('finish', () => {
           upStream.close( ()=> {
             logger.debug(`save file success ${filePath}`)
-            resolve(`${staticResourcePathWeb}${type}/${fileName}`);
+            resolve({filepath, url: `${staticResourcePathWeb}${type}/${fileName}`});
           });
       });
       reader.pipe(upStream);
   })
 }
+
 
 module.exports = {
   saveFile
