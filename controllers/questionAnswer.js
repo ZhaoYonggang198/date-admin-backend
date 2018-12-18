@@ -4,6 +4,7 @@ const Question = require('../models/question')
 const questionAnswer = async (openid) => {
   const questions = await Question.questionList()
   const answers = await Question.getAnswerList(openid)
+  
   return questions.map(item => {
     var questionId = item._key
     var qa = Object.assign(item, {questionId})
