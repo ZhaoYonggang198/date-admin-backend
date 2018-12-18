@@ -1,5 +1,6 @@
 const logger = require('../utils/logger').logger('relationCollection');
 const aql = require('arangojs').aql
+const config = require('../config')
 
 class RelationshipCollection {
   constructor(db, collection) {
@@ -101,6 +102,9 @@ class FavoriteshipCollection extends RelationshipCollection {
       })    
   }
 }
+
+
+const db = new ArangoDB(config.arango.userInfo).database
 
 const likeshipCollection = new RelationshipCollection(db, 'Likeship')
 
