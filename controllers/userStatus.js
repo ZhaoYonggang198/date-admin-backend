@@ -17,7 +17,7 @@ const saveUserStatus = async (ctx) => {
 
 const getUserStatus = async (ctx) => {
   try {
-    logger.debug(`get user status : ${JSON.stringify(ctx.request.body)}`);
+    logger.debug(`get user status : ${JSON.stringify(ctx.query)}`);
     let info = await UserStatus.getUserStatus(ctx.query.session_key);
     ctx.response.type = "application/json";
     ctx.response.status = 200;
@@ -31,8 +31,8 @@ const getUserStatus = async (ctx) => {
 
 const getUserStatusList = async (ctx) => {
   try {
-    logger.debug(`get user status list: ${JSON.stringify(ctx.query)}`);
-    let info = await UserStatus.getUserStatusList(ctx.query.start, ctx.query.end);
+    logger.debug(`get user status list, ${ctx.query.start}, ${ctx.query.end}`);
+    let info = await UserStatus.getUserStatusList(parseInt(ctx.query.start), parseInt(ctx.query.end));
     ctx.response.type = "application/json";
     ctx.response.status = 200;
     ctx.response.body = info;
