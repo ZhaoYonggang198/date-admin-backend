@@ -54,7 +54,7 @@ class RelationshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.subject == ${subject} and doc.status == true
-        return {object: doc.object, profile: DOCUMENT("UserProfile/" + doc.object), status: DOCUMENT("UserStatus/"+ doc.object)}
+        return {object: doc.object, profile: DOCUMENT(CONCAT("UserProfile/",doc.object)), status: DOCUMENT(CONCAT("UserStatus/",doc.object))}
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
@@ -68,7 +68,7 @@ class RelationshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.object == ${object} and doc.status == true
-        return {subject : doc.subject, profile: DOCUMENT("UserProfile/" + doc.subject), status: DOCUMENT("UserStatus/"+ doc.subject)}
+        return {subject : doc.subject, profile: DOCUMENT(CONCAT("UserProfile/",doc.subject)), status: DOCUMENT(CONCAT("UserStatus/",doc.subject))}
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
@@ -94,8 +94,8 @@ class FavoriteshipCollection extends RelationshipCollection {
           filter item.subject == doc.subject && item.object == doc.object
           return item)
         return {subject : doc.object,  
-          profile: DOCUMENT("UserProfile/" + doc.object),
-          status: DOCUMENT("UserStatus/"+ doc.object),
+          profile: DOCUMENT(CONCAT("UserProfile/", doc.object)),
+          status: DOCUMENT(CONCAT("UserStatus/", doc.object)),
           liking: likeship[0].status}
     `
 
