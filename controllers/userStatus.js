@@ -1,4 +1,4 @@
-const logger = require('../utils/logger').logger('userProfile');
+const logger = require('../utils/logger').logger('userStatus');
 const UserStatus = require('../models/userStatus')
 
 const saveUserStatus = async (ctx) => {
