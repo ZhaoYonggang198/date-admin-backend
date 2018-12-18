@@ -17,7 +17,7 @@ const saveUserStatus = async (ctx) => {
 
 const getUserStatus = async (ctx) => {
   try {
-    logger.debug(`get user profile update : ${JSON.stringify(ctx.request.body)}`);
+    logger.debug(`get user status : ${JSON.stringify(ctx.request.body)}`);
     let info = await UserStatus.getUserStatus(ctx.query.session_key);
     ctx.response.type = "application/json";
     ctx.response.status = 200;
@@ -31,7 +31,7 @@ const getUserStatus = async (ctx) => {
 
 const getUserStatusList = async (ctx) => {
   try {
-    logger.debug(`get user profile update : ${JSON.stringify(ctx.request.body)}`);
+    logger.debug(`get user status list: ${JSON.stringify(ctx.query)}`);
     let info = await UserStatus.getUserStatusList(ctx.query.start, ctx.query.end);
     ctx.response.type = "application/json";
     ctx.response.status = 200;
@@ -39,7 +39,7 @@ const getUserStatusList = async (ctx) => {
   } catch(err) {
       ctx.response.status = 404;
       ctx.response.body = {result : 'failed'};
-      logger.error('save profile info error: ' + err.message);
+      logger.error('get user status list: ' + err.message);
   }
 }
 
