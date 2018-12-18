@@ -31,6 +31,7 @@ class UserStatusCollection extends Collection {
         return doc
       },
       err => {
+        logger.error(query)
         logger.error(`get user status list for ${this.collectionName} fail`)
         throw err;
       })  
