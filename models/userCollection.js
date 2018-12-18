@@ -24,6 +24,7 @@ class UserCollection {
       },
       err => {
         logger.error(`create document for ${this.collectionName} fail ${err.message}`)
+        throw(err)
       })
   }
 
@@ -43,6 +44,7 @@ class UserCollection {
       },
       err => {
         logger.error(`update document for ${this.collectionName} fail ${err.message}`)
+        throw(err)
       })  
   }
 
@@ -59,6 +61,7 @@ class UserCollection {
       },
       err => {
         logger.error(`get document in ${this.collectionName} fail ${err.message}`)
+        throw(err)
       })
   }
 }

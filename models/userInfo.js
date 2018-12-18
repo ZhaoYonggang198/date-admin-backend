@@ -46,23 +46,10 @@ async function getUserProfile (openid) {
   return await userProfileCollection.getDocument(openid)
 }
 
-const userStatusCollection = new Collection(db, 'UserStatus')
-
-async function saveUserStatus (openid, userStatus) {
-  return await userStatusCollection.createDocument(openid, userStatus)
-}
-
-async function getUserStatus (openid) {
-  return await userStatusCollection.getDocument(openid)
-}
-
-
 module.exports = {
   saveOpenid,
   saveWechatInfo,
   getWechatInfo,
   saveUserProfile,
-  getUserProfile,
-  saveUserStatus,
-  getUserStatus
+  getUserProfile
 }
