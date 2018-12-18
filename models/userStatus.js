@@ -16,7 +16,7 @@ class UserStatusCollection extends Collection {
       for doc in ${this.collection}
         sort doc.info.timestamp desc
         limit ${start}, ${end}
-        let profile = DOCUMENT("UserProfile/${doc.openid}")
+        let profile = DOCUMENT("UserProfile/"+doc._key)
         return {status: doc, profile}
     `
 
