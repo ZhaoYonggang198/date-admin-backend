@@ -90,10 +90,10 @@ class FavoriteshipCollection extends RelationshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.subject == ${subject} and doc.status == true
-        let like = (for item in ${this.likeshipCollection}
+        let likeship = (for item in ${this.likeshipCollection}
           filter item.subject == doc.subject && item.object == doc.object
           return item)
-        return {profile: UserProfile[doc.object], status: UserStatus[doc.object], like: like[0].status}
+        return {profile: UserProfile[doc.object], status: UserStatus[doc.object], like: likeship[0].status}
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
