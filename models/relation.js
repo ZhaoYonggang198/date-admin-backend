@@ -84,7 +84,7 @@ class FavoriteshipCollection extends RelationshipCollection {
     this.likeshipCollectionName = likeshipCollection
   }
 
-  getFavoritingList(subject) {
+  async getFavoritingList(subject) {
     const query = aql`
       for doc in ${this.collection}
         filter doc.subject == ${subject} and doc.status == true
