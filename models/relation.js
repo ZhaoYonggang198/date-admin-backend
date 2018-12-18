@@ -1,6 +1,7 @@
 const logger = require('../utils/logger').logger('relationCollection');
 const aql = require('arangojs').aql
 const config = require('../config')
+const ArangoDB = require('./arangoDb')
 
 class RelationshipCollection {
   constructor(db, collection) {
