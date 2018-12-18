@@ -25,7 +25,7 @@ async function getFavoritingList (ctx) {
     ctx.response.status = 404;
     ctx.response.type = "application/json";
     ctx.response.body = {error: err.toString()};
-    logger.error('post audio failed: ' + err.message);    
+    logger.error('get favorite list: ' + err.message);    
   }
 }
 

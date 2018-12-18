@@ -100,6 +100,10 @@ class FavoriteshipCollection extends RelationshipCollection {
       .then(doc => {
         logger.debug('get object user profile list', doc.length)
         return doc
+      },
+      err => {
+        logger.error(query)
+        throw err
       })    
   }
 }
