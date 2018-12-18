@@ -102,7 +102,7 @@ class FavoriteshipCollection extends RelationshipCollection {
   }
 }
 
-const likeshipCollection = new Collection(db, 'Likeship')
+const likeshipCollection = new RelationshipCollection(db, 'Likeship')
 
 const favoriteshipCollection = new FavoriteshipCollection(db, 'Favoriteship')
 
