@@ -17,7 +17,6 @@ class UserStatusCollection extends Collection {
         sort doc.info.timestamp desc
         limit ${start}, ${end}
         let profile = UserProfile[doc.openid]
-        filter length(profile) > 0
         return {status: doc, profile}
     `
 
