@@ -49,20 +49,7 @@ class UserCollection {
   }
 
   async getDocument(openid) {
-    const query = aql`
-      for doc in ${this.collection}
-        filter doc.openid == ${openid}
-        return doc
-      `
-    return await this.db.query(query).then(cursor => cursor.next())
-      .then(doc => {
-        logger.debug(`get document ${doc} for ${openid} in ${this.collectionName}`)
-        return doc
-      },
-      err => {
-        logger.error(`get document in ${this.collectionName} fail ${err.message}`)
-        throw(err)
-      })
+    return await this.collection.document(openid)
   }
 }
 
