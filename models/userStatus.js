@@ -16,13 +16,9 @@ class UserStatusCollection extends Collection {
       for doc in ${this.collection}
         sort doc.info.timestamp desc
         limit ${start}, ${end}
-        let profile = (
-          for item in UserProfile
-          filter item.openid == doc.openid
-          return item
-        )
+        let profile = UserProfile[doc.openid]
         filter length(profile) > 0
-        return {status: doc, profile: profile[0]}
+        return {status: doc, profile}
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
