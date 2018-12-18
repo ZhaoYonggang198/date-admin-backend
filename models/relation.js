@@ -90,7 +90,7 @@ class FavoriteshipCollection extends RelationshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.subject == ${subject} and doc.status == true
-        let likeship = (for item in ${this.likeshipCollection}
+        let likeship = (for item in ${this.likeshipCollectionName}
           filter item.subject == doc.subject && item.object == doc.object
           return item)
         return {profile: UserProfile[doc.object], status: UserStatus[doc.object], liking: likeship[0].status}
@@ -113,7 +113,7 @@ const db = new ArangoDB(config.arango.userInfo).database
 
 const likeshipCollection = new RelationshipCollection(db, 'Likeship')
 
-const favoriteshipCollection = new FavoriteshipCollection(db, 'Favoriteship')
+const favoriteshipCollection = new FavoriteshipCollection(db, 'Favoriteship', 'Likeship')
 
 const likeSomeone = async (subject, object, like) => {
   return await likeshipCollection.updateDocument(subject, object, like)
