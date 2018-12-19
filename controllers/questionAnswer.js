@@ -58,7 +58,7 @@ const askQuestion = async (ctx) => {
   } catch (err) {
     ctx.response.status = 404;
     ctx.response.type = "application/json";
-    ctx.response.body = {error: 'failed'};
+    ctx.response.body = {error:err ? err.toString() : 'failed'};
     logger.error('ask Question  failed: ' + err.message);
   } 
 }
