@@ -27,7 +27,7 @@ const questionClassify = async (openid, question) => {
 }
 
 const askQuestion = async (askerOpenId, answerOpenid, question) => {
-  const classify = await questionClassify(openid, question.asr)
+  const classify = await questionClassify(askerOpenId, question.asr)
 
   if (!classify) {
     return await Askship.putQuestion(askerOpenId, answerOpenid, {url: question.url, asr: question.asr}, null, 'no-answer')
