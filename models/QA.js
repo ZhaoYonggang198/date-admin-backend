@@ -9,7 +9,7 @@ const Question  = require('./question')
 
 const Askship = require('./askship')
 
-const chatbot = new Chatbot(config.chatbot_url, config.qaAgent, 'date-backend')
+const chatbot = new Chatbot(config.chatbot_url, config.qa_agent, 'date-backend')
 
 const questionClassify = async (openid, question) => {
   const res = await chatbot.dispose(new Query(openid, question))
