@@ -60,8 +60,26 @@ const getAnswerList = async (openid) => {
     })
 }
 
+const getAnswer = async (openid, questionId) => {
+  const query = aql`
+    for doc in ${AnswerCollection}
+      filter doc.openid == ${openid} and doc.questionId == ${questionId}
+      return doc
+      `
+  return await db.query(query).then(cursor => cursor.next())
+    .then(doc => {
+      logger.debug(`get question ${questionId} from ${openid}`)
+      return doc
+    },
+    err => {
+      logger.error(`don't get answer for question ${questionId} from ${openid}`)
+      return null
+    })
+}
+
 module.exports = {
   questionList,
   putAnswer,
-  getAnswerList
+  getAnswerList,
+  getAnswer
 }

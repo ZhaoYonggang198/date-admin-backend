@@ -1,10 +1,11 @@
 const logger = require('../utils/logger').logger('controller QuestionAnswer');
 const Question = require('../models/question')
+const QA = require('../models/QA')
 
 const questionAnswer = async (openid) => {
   const questions = await Question.questionList()
   const answers = await Question.getAnswerList(openid)
-  
+
   return questions.map(item => {
     var questionId = item._key
     var qa = Object.assign(item, {questionId})
@@ -27,10 +28,10 @@ const updateAnswer = async (ctx) => {
     ctx.response.status = 200;
     ctx.response.body = {result};
   } catch (err) {
-      ctx.response.status = 404;
-      ctx.response.type = "application/json";
-      ctx.response.body = {error: err.toString()};
-      logger.error('get Question Answer failed: ' + err.message);
+    ctx.response.status = 404;
+    ctx.response.type = "application/json";
+    ctx.response.body = {error: err.toString()};
+    logger.error('get Question Answer failed: ' + err.message);
   }
 }
 
@@ -41,15 +42,30 @@ const getQuestionAnswer = async (ctx) => {
     ctx.response.status = 200;
     ctx.response.body = {data};
   } catch (err) {
-      ctx.response.status = 404;
-      ctx.response.type = "application/json";
-      ctx.response.body = {error: err.toString()};
-      logger.error('get Question Answer failed: ' + err.message);
+    ctx.response.status = 404;
+    ctx.response.type = "application/json";
+    ctx.response.body = {error: err.toString()};
+    logger.error('get Question Answer failed: ' + err.message);
   }  
+}
+
+const askQuestion = async (ctx) => {
+  try {
+    const answer = await QA.askQuestion(ctx.request.body.session_key, ctx.request.body.ask.who, ctx.request.body.ask)
+    ctx.response.type = "application/json";
+    ctx.response.status = 200;
+    ctx.response.body = {answer};    
+  } catch (err) {
+    ctx.response.status = 404;
+    ctx.response.type = "application/json";
+    ctx.response.body = {error: err.toString()};
+    logger.error('ask Question  failed: ' + err.message);
+  } 
 }
 
 module.exports = {
   'GET /question-answer': getQuestionAnswer,
   'POST /answer': updateAnswer,
-  'PUT /answer': updateAnswer
+  'PUT /answer': updateAnswer,
+  'POST /ask-question': askQuestion
 }
