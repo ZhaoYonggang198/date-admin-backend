@@ -14,7 +14,7 @@ const chatbot = new Chatbot(config.chatbot_url, config.qa_agent, 'date-backend')
 const questionClassify = async (openid, question) => {
   const res = await chatbot.dispose(new Query(openid, question))
 
-  const instructs = new Response(res).getInstructs()
+  const instructs = res.getInstructs()
 
   let result = null
 
