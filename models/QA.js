@@ -29,23 +29,25 @@ const questionClassify = async (openid, question) => {
 const askQuestion = async (askerOpenId, answerOpenid, question) => {
   const classify = await questionClassify(askerOpenId, question.asr)
 
-  if (!classify) {
-    return await Askship.putQuestion(askerOpenId, answerOpenid, {url: question.url, asr: question.asr}, null, 'no-answer')
-  }
+  let questionId = null
 
-  let questionId = classify.questionId
+  if (!classify) {
+    return await Askship.putQuestion(askerOpenId, answerOpenid, questionId, {url: question.url, asr: question.asr}, null, 'no-answer')
+  }
 
   const answer = await Question.getAnswer(answerOpenid, questionId)
 
   if (!answer) {
-    return await Askship.putQuestion(askerOpenId, answerOpenid, 
-      {url: question.url, asr: question.asr, questionId },
+    return await Askship.putQuestion(askerOpenId, answerOpenid, questionId,
+      {url: question.url, asr: question.asr},
+      null,
       'no-answer'
     )
   }
 
-  return await Askship.putQuestion(askerOpenId, answerOpenid,
+  return await Askship.putQuestion(askerOpenId, answerOpenid, questionId,
       {url: question.url, asr: question.asr, questionId: classify.questionId},
+      answer,
       'unread')
 }
 

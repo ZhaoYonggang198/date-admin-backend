@@ -10,19 +10,13 @@ class AskshipCollection {
     this.collectionName = 'Askship'
   }
 
-  async createDocument(subject, object, question, answer, status) {
+  async updateDocumentWithoutQuestionId(subject, object, question, answer, status) {
     const query = aql`
-      UPSERT {subject: ${subject}, object: ${object}}
       INSERT {subject: ${subject}, object: ${object},
         question: ${question},
         answer: ${answer},
         status: ${status},
         dataCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
-      UPDATE {subject: ${subject}, object: ${object}, 
-        question: ${question},
-        answer: ${answer},
-        status: ${status},
-        updates: OLD.updates + 1, dateUpdate: DATE_ISO8601(DATE_NOW())}
       IN ${this.collection}
       return NEW
     `
@@ -38,15 +32,15 @@ class AskshipCollection {
       })
   }
 
-  async updateDocument(subject, object, question, answer, status) {
+  async updateDocument(subject, object, questionId, question, answer, status) {
     const query = aql`
-      UPSERT {subject: ${subject}, object: ${object}}
-      INSERT {subject: ${subject}, object: ${object},
+      UPSERT {subject: ${subject}, object: ${object}, questionId: ${questionId}}
+      INSERT {subject: ${subject}, object: ${object}, questionId: ${questionId},
         question: ${question},
         answer: ${answer},
         status: ${status},
         dataCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
-      UPDATE {subject: ${subject}, object: ${object}, 
+      UPDATE {subject: ${subject}, object: ${object}, questionId: ${questionId}, 
         question: ${question},
         answer: ${answer},
         status: ${status},
@@ -104,7 +98,7 @@ class AskshipCollection {
   async updateAnswerForQuestion(questionId, answer) {
     const query = aql`
       for doc in ${this.collection}
-        filter doc.question.questionId == ${questionId}
+        filter doc.questionId == ${questionId}
         update doc WITH 
           {answer: ${answer}, status: 'unread', updates: OLD.updates + 1, dateUpdate: DATE_ISO8601(DATE_NOW())}
           in ${this.collection}
@@ -129,8 +123,12 @@ const db = new ArangoDB(config.arango.userInfo).database
 
 const askshipCollection = new AskshipCollection(db)
 
-const putQuestion = async (subject, object, question, answer, status) => {
-  return await askshipCollection.createDocument(subject, object, question, answer, status)
+const putQuestion = async (subject, object, questionId, question, answer, status) => {
+  if (questionId) {
+    return await askshipCollection.updateDocument(subject, object, questionId, question, answer, status)
+  } else {
+    return await askshipCollection.updateDocumentWithoutQuestionId(subject, object, question, answer, status)
+  }
 }
 const updateAnswerForAsker = async (key, answer) => {
   return await askshipCollection.updateAnswerForAsker(key, answer)
