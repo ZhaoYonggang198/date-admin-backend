@@ -18,6 +18,10 @@ const questionClassify = async (openid, question) => {
 
   let result = null
 
+  if (!instructs) {
+    return null
+  }
+
   for (let instruct of instructs) {
     if (instruct.type === 'question-id') {
       result = instruct
