@@ -38,7 +38,7 @@ class AskshipCollection {
       })
   }
 
-  async updateDocument(subject, object, status) {
+  async updateDocument(subject, object, question, answer, status) {
     const query = aql`
       UPSERT {subject: ${subject}, object: ${object}}
       INSERT {subject: ${subject}, object: ${object},
@@ -129,9 +129,29 @@ const db = new ArangoDB(config.arango.userInfo).database
 
 const askshipCollection = new AskshipCollection(db)
 
+const putQuestion = async (subject, object, question, answer, status) => {
+  return await askshipCollection.createDocument(subject, object, question, answer, status)
+}
+
+const updateAnswerForAsker = async (subject, object, question, answer, status) => {
+  return await askshipCollection.updateDocument(subject, object, question, answer, status)
+}
+
+const updateAnswerForAsker = async (key, answer) => {
+  return await askshipCollection.updateAnswerForAsker(key, answer)
+}
+
+const updateAnswerForQuestion = async (questionId, answer) => {
+  return await askshipCollection.updateAnswerForQuestion(questionId, answer)
+}
+
+const updateStatus = async (key, status) => {
+  return await askshipCollection.updateStatus(key, status)
+}
+
 module.exports = {
-  putQuestion: askshipCollection.createDocument,
-  updateAnswerForAsker: askshipCollection.updateAnswerForAsker,
-  updateAnswerForQuestion: askshipCollection.updateAnswerForQuestion,
-  updateStatus: askshipCollection.updateStatus
+  putQuestion,
+  updateAnswerForAsker,
+  updateAnswerForQuestion,
+  updateStatus
 }

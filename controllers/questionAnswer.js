@@ -31,7 +31,7 @@ const updateAnswer = async (ctx) => {
     ctx.response.status = 404;
     ctx.response.type = "application/json";
     ctx.response.body = {error: err.toString()};
-    logger.error('get Question Answer failed: ' + err.message);
+    logger.error('update  Answer failed: ' + err.message);
   }
 }
 
