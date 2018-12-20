@@ -20,7 +20,7 @@ const questionClassify = async (openid, question) => {
 
   for (let instruct of instructs) {
     if (instruct.type === 'question-id') {
-      result = instruct['question-id']
+      result = instruct
     }
   }
   return result
@@ -34,6 +34,8 @@ const askQuestion = async (askerOpenId, answerOpenid, question) => {
   if (!classify) {
     return await Askship.putQuestion(askerOpenId, answerOpenid, questionId, {url: question.url, asr: question.asr}, null, 'no-answer')
   }
+
+  questionId = classify['question-id']
 
   const answer = await Question.getAnswer(answerOpenid, questionId)
 
