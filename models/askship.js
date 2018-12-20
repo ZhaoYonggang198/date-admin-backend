@@ -132,11 +132,6 @@ const askshipCollection = new AskshipCollection(db)
 const putQuestion = async (subject, object, question, answer, status) => {
   return await askshipCollection.createDocument(subject, object, question, answer, status)
 }
-
-const updateAnswerForAsker = async (subject, object, question, answer, status) => {
-  return await askshipCollection.updateDocument(subject, object, question, answer, status)
-}
-
 const updateAnswerForAsker = async (key, answer) => {
   return await askshipCollection.updateAnswerForAsker(key, answer)
 }
