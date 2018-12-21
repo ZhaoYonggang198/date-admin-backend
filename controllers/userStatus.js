@@ -32,7 +32,7 @@ const getUserStatus = async (ctx) => {
 const getUserStatusList = async (ctx) => {
   try {
     logger.debug(`get user status list, ${ctx.query.start}, ${ctx.query.end}`);
-    let info = await UserStatus.getUserStatusList(parseInt(ctx.query.start), parseInt(ctx.query.end));
+    let info = await UserStatus.getUserStatusList(ctx.query.session_key, parseInt(ctx.query.start), parseInt(ctx.query.end));
     ctx.response.type = "application/json";
     ctx.response.status = 200;
     ctx.response.body = info;

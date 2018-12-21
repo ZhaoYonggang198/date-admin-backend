@@ -11,13 +11,20 @@ class UserStatusCollection extends Collection {
     super(db, collection)
   }
 
-  async getUserStatusListByTimeStamp (start, end) {
+  async getUserStatusListByTimeStamp (openid, start, end) {
     const query = aql`
       for doc in ${this.collection}
         sort doc.info.timestamp desc
         limit ${start}, ${end}
         let profile = DOCUMENT(CONCAT("UserProfile/",doc._key))
-        return {status: doc, profile}
+        let object = doc._key
+        let favorite = (for item in Favoriteship
+          filter item.subject == ${openid} and item.object == object and item.status
+          return item.status)
+        let liking = (for item in Likeship
+          filter item.subject == ${openid} and item.object == object and item.status
+          return item.status)
+        return {status: doc, profile, favorite: favorite[0], liking: liking[0]}
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
@@ -43,8 +50,8 @@ async function getUserStatus (openid) {
   return await userStatusCollection.getDocument(openid)
 }
 
-async function getUserStatusList (start, end) {
-  return await userStatusCollection.getUserStatusListByTimeStamp(start, end)
+async function getUserStatusList (openid, start, end) {
+  return await userStatusCollection.getUserStatusListByTimeStamp(openid, start, end)
 }
 
 module.exports = {
