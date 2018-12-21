@@ -8,7 +8,7 @@ function convert_to_openId(userId){
 
 function mappingGateway() {
   var gatewayHandle = {}
-  fs.readdirSync(__dirname + '../gateway').filter((f) => {
+  fs.readdirSync(__dirname + '/../gateway').filter((f) => {
     return f.endsWith('.js');
   }).forEach(file => {
     let gatewayItem = require('../gateway/' + file)
