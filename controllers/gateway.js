@@ -8,10 +8,10 @@ function convert_to_openId(userId){
 
 function mappingGateway() {
   var gatewayHandle = {}
-  fs.readdirSync('../gateway').filter((f) => {
+  fs.readdirSync(__dirname + '../gateway').filter((f) => {
     return f.endsWith('.js');
   }).forEach(file => {
-    let gatewayItem = require('../gateway' + file)
+    let gatewayItem = require('../gateway/' + file)
     for (let api in gatewayItem) {
       gatewayHandle[api] = gatewayItem[api]
       logger.debug('add API gateway ', api)
