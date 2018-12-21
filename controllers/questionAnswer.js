@@ -65,7 +65,7 @@ const askQuestion = async (ctx) => {
 
 module.exports = {
   'GET /question-answer': getQuestionAnswer,
-  'POST /answer': updateAnswer,
-  'PUT /answer': updateAnswer,
+  'POST /public-question/answer': updateAnswer,
+  'PUT /public-question/answer': updateAnswer,
   'POST /ask-question': askQuestion
 }

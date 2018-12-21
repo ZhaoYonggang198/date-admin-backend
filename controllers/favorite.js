@@ -3,7 +3,7 @@ const relation = require('../models/relation')
 
 async function favorite(ctx) {
   try {
-    await relation.favoriteSomeone(ctx.request.body.subject, ctx.request.body.object, ctx.request.body.favorite);
+    await relation.favoriteSomeone(ctx.request.body.session_key, ctx.request.body.object, ctx.request.body.favorite);
     ctx.response.type = "application/json";
     ctx.response.status = 200;
     ctx.response.body = {result: 'ok'};
