@@ -3,7 +3,7 @@ const relation = require('../models/relation')
 
 async function postLike(ctx) {
   try {
-    await relation.likeSomeone(ctx.request.body.subject, ctx.request.body.object, ctx.request.body.like);
+    await relation.likeSomeone(ctx.request.body.session_key, ctx.request.body.object, ctx.request.body.like);
     ctx.response.type = "application/json";
     ctx.response.status = 200;
     ctx.response.body = {result: 'ok'};

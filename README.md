@@ -242,6 +242,8 @@ wx.request({
 ```
 [
     {
+        favorite: true/false, //是否关注
+        liking: true/false, //是否点赞
         profile: {
         },
         status: {
@@ -295,6 +297,12 @@ wx.request({
   }
 })
 ```
+返回值
+
+```
+{"result":"success"}
+```
+
 
 ### 获取关注的列表
 ```
@@ -314,11 +322,134 @@ wx.request({
 返回值
 
 ```
+[
+    {
+        favorite: true/false, //是否关注
+        liking: true/false, //是否点赞
+        profile: {
+        },
+        status: {
+        }
+    }
+]
+```
 
+## 喜欢
+
+### 喜欢/不再喜欢某人
+```
+POST http://[主页]/like
+```
+请求参数
+
+```
+wx.request({
+    url: 'http://[主页]/like',
+    method: 'POST',
+    data: {
+        session_key,
+        object: session_key,
+        like: true/false, //喜欢/不再喜欢
+    }
+})
+```
+返回值
+
+```
+{"result":"success"}
 ```
 
 
-## qrcode
+### 获得喜欢某人的列表
+```
+GET http://[主页]/liked-list
+```
+请求参数
+
+```
+wx.request({
+    url: 'http://[主页]/liked-list',
+    method: 'GET',
+    data: {
+        session_key
+    }
+})
+```
+返回值
+
+```
+[
+    {
+        subject: "openid",
+        status: {},
+        profile: {}
+    }
+]
+```
+
+## 问问题
+### 向某人发问
+```
+POST http://[主页]/ask-question
+```
+请求参数
+
+```
+wx.request({
+    url: 'http://[主页]/ask-question',
+    method: 'POST',
+    data: {
+      session_key,
+      ask: {
+          who: session_key,
+          url: 'http://localhost/3.mp3',
+          asr: '你有多高啊？'
+      }
+    }
+})
+```
+
+## 上传图片
+```
+http://[主页]/upload/image
+```
+
+```
+wx.uploadFile({
+    url: 'http://[主页]/upload/image',
+    filePath: res.tempFilePaths[0],
+    name: 'image',
+})
+```
+
+## 上传视频
+```
+http://[主页]/upload/video
+```
+请求参数
+
+```
+wx.uploadFile({
+    url: 'http://[主页]/upload/video',
+    filePath: res.tempFilePath,
+    name: 'video',
+})
+```
+
+## ASR识别
+返回值
+
+```
+{
+    "url":"url",
+    "result":{     // asr result
+        "err_msg":"speech quality error.",
+        "err_no":3301,
+        "sn":"169911408631545362711"
+    }
+}
+```
+## 安装依赖
 
 ### node-canvas install
 
@@ -348,144 +479,8 @@ sudo apt-get install ffmpeg
 npm install fluent-ffmpeg
 ```
 
-## restart mongodb
-
-```bash
-sudo mongod --dbpath /var/lib/mongodb/ --logpath /var/log/mongodb/mongod.log --logappend  -fork -port 27017
-```
 
 
-## 听写添加接口
-### 添加词语列表
-* 请求方式
-
-``` post http://localhost/dictateWords```
-
-* 参数
-
-```json
-{"openId"    : "oNijH5e8sdGfry-3tQWVN3SgskB0",
- "dictateWords": {
- 	"title": "语文第二课",
-	"active": false,
-	"playWay" : "order", //disorder
-	"playTimes" : 1,
-	"intervel" : 5, //间隔
-	"words": [
-	{ "term": "波浪", "pinyin": "bolang"},
-	{ "term": "浪花","pinyin": "langhua"},
-	{ "term": "海浪","pinyin": "hailang"},
-	{ "term": "灯光","pinyin": "dangguang"},
-	{ "term": "电灯","pinyin": "diandeng"},
-	{ "term": "作文","pinyin": "zuowen"},
-	{ "term": "工作","pinyin": "gongzuo"}
-	]
- }
-}
-```
-* 返回值
-
-```json
-{
-    "result": "success",
-    "id": "52330249"
-}
-```
-
-### 更新词语列表
-* 请求方式
-
-``` put http://localhost/dictateWords```
-
-* 参数
-
-```json
-{"id"    : "52115059",
- "dictateWords": {
- 	"title": "语文第二课",
-	"active": false,
-	"playWay" : "order", //disorder
-	"playTimes" : 1,
-	"intervel" : 5, //间隔
-	"words": [
-	{ "term": "波浪", "pinyin": "bolang"},
-	{ "term": "浪花","pinyin": "langhua"},
-	{ "term": "海浪","pinyin": "hailang"},
-	{ "term": "灯光","pinyin": "dangguang"},
-	{ "term": "电灯","pinyin": "diandeng"},
-	{ "term": "作文","pinyin": "zuowen"},
-	{ "term": "工作","pinyin": "gongzuo"}
-	]
- }
-}
-```
-
-* 返回值
-
-```json
-{
-    "result": "success",
-    "id": "52330249"
-}
-```
-
-### 删除词语列表
-* 请求方式
-
-``` delete http://localhost/dictateWords?id=52115059```
-
-* 返回值
-```json
-{
-    "result": "success",
-    "id": "52330249"
-}
-```
-
-### 查询所有的词语列表
-* 请求方式
-
-``` get http://localhost/dictateWords?openId=oNijH5e8sdGfry-3tQWVN3SgskB0```
-
-* 返回值
-```json
-{
-    "result": "success",
-    "data": [
-        {
-            "title": "语文第一课",
-            "active": false,
-            "words": [
-                { "term": "波浪", "pinyin": "bolang"},
-                { "term": "浪花","pinyin": "langhua"},
-                { "term": "海浪","pinyin": "hailang"},
-                { "term": "灯光","pinyin": "dangguang"},
-                { "term": "电灯","pinyin": "diandeng"},
-                { "term": "作文","pinyin": "zuowen"},
-                { "term": "工作","pinyin": "gongzuo"}
-            ],
-            "darwinId": "weixin_oESUr5Arz8hmqlkTJjmrR_539Pz8",
-            "createTime": "2018-10-23",
-            "updateTime": "2018-10-23",
-            "id": "52330249"
-        },
-        {
-            "darwinId": "weixin_oESUr5Arz8hmqlkTJjmrR_539Pz8",
-            "active": true,
-            "words": [
-                { "term": "波浪", "pinyin": "bolang"},
-                { "term": "浪花","pinyin": "langhua"},
-                { "term": "海浪","pinyin": "hailang"},
-                { "term": "灯光","pinyin": "dangguang"},
-                { "term": "电灯","pinyin": "diandeng"},
-                { "term": "作文","pinyin": "zuowen"},
-                { "term": "工作","pinyin": "gongzuo"}
-            ],
-            "id": "52086497"
-        }
-    ]
-}
-```
 
 
 ##绑定用户接口
