@@ -27,7 +27,7 @@ const apiHandle = async (req) => {
     const api = req.api;
     const params = req.arguments;
     let result = null;
-    let handler = apiHandlers(api)
+    let handler = apiHandlers[api]
     if (handler) {
       result = await handler(userId, params)
     } else {
