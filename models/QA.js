@@ -11,8 +11,8 @@ const Askship = require('./askship')
 
 const chatbot = new Chatbot(config.chatbot_url, config.qa_agent, 'date-backend')
 
-const questionClassify = async (openid, question) => {
-  const res = await chatbot.dispose(new Query(openid, question))
+const questionClassify = async (openid, answerOpenid, question) => {
+  const res = await chatbot.dispose(new Query(openid, question).addUserContext('answerId', answerOpenid))
 
   const instructs = res.getInstructs()
 
@@ -31,7 +31,7 @@ const questionClassify = async (openid, question) => {
 }
 
 const askQuestion = async (askerOpenId, answerOpenid, question) => {
-  const classify = await questionClassify(askerOpenId, question.asr)
+  const classify = await questionClassify(askerOpenId, answerOpenid, question.asr)
 
   let questionId = null
 
