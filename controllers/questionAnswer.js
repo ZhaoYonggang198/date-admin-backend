@@ -24,7 +24,6 @@ const updateAnswer = async (ctx) => {
     const result = await Question.putAnswer(ctx.request.body.session_key, 
       ctx.request.body.questionId,
       ctx.request.body.answer);
-    QA.
     ctx.response.type = "application/json";
     ctx.response.status = 200;
     ctx.response.body = {result};
