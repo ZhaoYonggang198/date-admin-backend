@@ -46,6 +46,7 @@ const gatewayApi = async (ctx) => {
         const req = ctx.request.body;
         logger.debug(`receive gateway request : ${JSON.stringify(req)}`);
         const rsp = await apiHandle(req);
+        logger.debug(`gateway response is ${JSON.stringify(rsp)}`)
         ctx.response.type = "application/json";
         ctx.response.status = 200;
         ctx.response.body = rsp;
