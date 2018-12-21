@@ -96,7 +96,8 @@ class FavoriteshipCollection extends RelationshipCollection {
         return {subject : doc.object,  
           profile: DOCUMENT(CONCAT("UserProfile/", doc.object)),
           status: DOCUMENT(CONCAT("UserStatus/", doc.object)),
-          liking: likeship[0].status}
+          liking: likeship[0].status,
+          favorite: true}
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
