@@ -1,6 +1,7 @@
 const logger = require('../utils/logger').logger('controller QuestionAnswer');
 const Question = require('../models/question')
 const QA = require('../models/QA')
+const buildController = require('../utils/controller-producer')
 
 const questionAnswer = async (openid) => {
   const questions = await Question.questionList()
@@ -19,49 +20,31 @@ const questionAnswer = async (openid) => {
   })
 }
 
-const updateAnswer = async (ctx) => {
-  try {
+const updateAnswer = buildController(
+  async (ctx) => {
     const result = await Question.putAnswer(ctx.request.body.session_key, 
       ctx.request.body.questionId,
-      ctx.request.body.answer);
-    ctx.response.type = "application/json";
-    ctx.response.status = 200;
-    ctx.response.body = {result};
-  } catch (err) {
-    ctx.response.status = 404;
-    ctx.response.type = "application/json";
-    ctx.response.body = {error: err.toString()};
-    logger.error('update  Answer failed: ' + err.message);
-  }
-}
+      ctx.request.body.answer)
+    return {result}    
+  },
+  err => {logger.error('update  Answer failed: ' + err.message)}
+)
 
-const getQuestionAnswer = async (ctx) => {
-  try {
-    const data = await questionAnswer(ctx.query.session_key);
-    ctx.response.type = "application/json";
-    ctx.response.status = 200;
-    ctx.response.body = {data};
-  } catch (err) {
-    ctx.response.status = 404;
-    ctx.response.type = "application/json";
-    ctx.response.body = {error: err.toString()};
-    logger.error('get Question Answer failed: ' + err.message);
-  }  
-}
+const getQuestionAnswer = buildController(
+  async (ctx) => {
+    const data = await questionAnswer(ctx.query.session_key)
+    return {data}
+  },
+  err => { logger.error('get Question Answer failed: ' + err.message) }
+)
 
-const askQuestion = async (ctx) => {
-  try {
+const askQuestion = buildController(
+  async (ctx) => {
     const answer = await QA.askQuestion(ctx.request.body.session_key, ctx.request.body.ask.who, ctx.request.body.ask)
-    ctx.response.type = "application/json";
-    ctx.response.status = 200;
-    ctx.response.body = {answer};    
-  } catch (err) {
-    ctx.response.status = 404;
-    ctx.response.type = "application/json";
-    ctx.response.body = {error:err ? err.toString() : 'failed'};
-    logger.error('ask Question  failed: ' + err && err!==null ? err.message : 'unknow error');
-  } 
-}
+    return {answer}
+  },
+  err => { logger.error('ask Question  failed: ' + err && err!==null ? err.message : 'unknow error') }
+)
 
 module.exports = {
   'GET /question-answer': getQuestionAnswer,

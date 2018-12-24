@@ -1,33 +1,23 @@
 const logger = require('../utils/logger').logger('favorite');
 const relation = require('../models/relation')
+const buildController = require('../utils/controller-producer')
 
-async function favorite(ctx) {
-  try {
-    await relation.favoriteSomeone(ctx.request.body.session_key, ctx.request.body.object, ctx.request.body.favorite);
-    ctx.response.type = "application/json";
-    ctx.response.status = 200;
-    ctx.response.body = {result: 'ok'};
-  } catch (err) {
-    ctx.response.status = 404;
-    ctx.response.type = "application/json";
-    ctx.response.body = {error: err.toString()};
-    logger.error('post audio failed: ' + err.message);
+const favorite = buildController(
+  async (ctx) => {
+    await relation.favoriteSomeone(ctx.request.body.session_key, ctx.request.body.object, ctx.request.body.favorite)
+    return {result: "success"}
+  },
+  err => {
+    logger.error('favorit some error: ', err.message)
   }
-}
+)
 
-async function getFavoritingList (ctx) {
-  try {
-    const data = await relation.getFavoritingList(ctx.query.session_key)
-    ctx.response.type = "application/json"
-    ctx.response.status = 200
-    ctx.response.body = data    
-  } catch (err) {
-    ctx.response.status = 404;
-    ctx.response.type = "application/json";
-    ctx.response.body = {error: err.toString()};
-    logger.error('get favorite list: ' + err.message);    
-  }
-}
+const getFavoritingList = buildController(
+  async (ctx) => {
+    return await relation.getFavoritingList(ctx.query.session_key)
+  },
+  err => {logger.error('get favorite list: ' + err.message)}
+)
 
 module.exports = {
   'GET /favorite' : getFavoritingList,

@@ -2,9 +2,10 @@ const config = require('../config');
 const logger = require('../utils/logger').logger('AUTH');
 const axios = require('axios')
 const UserInfo = require('../models/userInfo')
+const buildController = require('../utils/controller-producer')
 
-const auth = async (ctx) => {
-  try {
+const auth = buildController(
+  async (ctx) => {
     const result = await axios.get('https://api.weixin.qq.com/sns/jscode2session', {
       params: {
         appid: config.appid,
@@ -15,18 +16,14 @@ const auth = async (ctx) => {
     });
 
     UserInfo.saveOpenid(result.data.openid)
-    
-    ctx.response.type = "application/json";
-    ctx.response.status = 200;
-    ctx.response.body = {
+    return {
       session_key: result.data.openid
-    };
-  } catch (err) {
-    ctx.response.status = 404;
+    }
+  },
+  err => {
     logger.error('get openid error: ' + err);
   }
-}
-
+) 
 
 module.exports = {
   'POST /auth': auth
