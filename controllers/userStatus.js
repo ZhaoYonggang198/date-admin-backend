@@ -2,7 +2,7 @@ const logger = require('../utils/logger').logger('userStatus');
 const UserStatus = require('../models/userStatus')
 const buildController = require('../utils/controller-producer')
 
-const saveUserStatus = buildController((ctx) => {
+const saveUserStatus = buildController(async (ctx) => {
   logger.debug(`receive user Status update : ${JSON.stringify(ctx.request.body)}`)
   await UserStatus.saveUserStatus(ctx.request.body.session_key, ctx.request.body.status)
   return {result: 'success'}
@@ -10,7 +10,7 @@ const saveUserStatus = buildController((ctx) => {
   logger.error('save user status: ' + err.message);
 })
 
-const getUserStatus = buildController(ctx => {
+const getUserStatus = buildController(async ctx => {
   logger.debug(`get user status : ${JSON.stringify(ctx.query)}`)
   let info = await UserStatus.getUserStatus(ctx.query.session_key)
   return info.info
@@ -20,7 +20,7 @@ err => {
 })
 
 const getUserStatusList = buildController(
-  ctx => {
+  async ctx => {
     logger.debug(`get user status list, ${ctx.query.start}, ${ctx.query.end}`)
     return await UserStatus.getUserStatusList(ctx.query.session_key, parseInt(ctx.query.start), parseInt(ctx.query.end))
   },
