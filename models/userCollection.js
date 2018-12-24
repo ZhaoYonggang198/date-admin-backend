@@ -23,6 +23,7 @@ class UserCollection {
         return doc
       },
       err => {
+        logger.error(`AQL is ${JSON.stringify(query)}`)
         logger.error(`create document for ${this.collectionName} fail ${err.message}`)
         throw(err)
       })
@@ -43,6 +44,7 @@ class UserCollection {
         return doc
       },
       err => {
+        logger.error(`AQL is ${JSON.stringify(query)}`)
         logger.error(`update document for ${this.collectionName} fail ${err.message}`)
         throw(err)
       })  

@@ -437,6 +437,22 @@ wx.uploadFile({
 ```
 
 ## ASR识别
+```
+http://[主页]/asr
+```
+
+请求参数
+```
+wx.uploadFile({
+  url: 'http://[主页]/asr',
+  filePath: res.tempFilePath,
+  name: 'audio',
+  success: function(res){
+      console.log(res)
+  }
+})
+```
+
 返回值
 
 ```
