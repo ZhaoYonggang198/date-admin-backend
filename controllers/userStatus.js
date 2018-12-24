@@ -25,7 +25,7 @@ const getUserStatus = async (ctx) => {
   } catch(err) {
       ctx.response.status = 404;
       ctx.response.body = {result : 'failed'};
-      logger.error('save profile info error: ' + err.message);
+      logger.error('get user status error: ' + err.message);
   }
 }
 
