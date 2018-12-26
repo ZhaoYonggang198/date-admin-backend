@@ -40,6 +40,7 @@ const getQuestionAnswer = buildController(
 
 const askQuestion = buildController(
   async (ctx) => {
+    logger.debug('ask question ', JSON.stringify(ctx.request.body))
     const answer = await QA.askQuestion(ctx.request.body.session_key, ctx.request.body.ask.who, ctx.request.body.ask)
     return {answer}
   },
