@@ -334,6 +334,34 @@ wx.request({
 ]
 ```
 
+### 获取收藏你的列表
+```
+GET http://[主页]/favorited-list
+```
+请求参数
+
+```
+wx.request({
+    url: 'http://[主页]/favorited-list',
+    method: 'GET',
+    data: {
+        session_key
+    }                          
+})
+```
+返回值
+
+```
+[
+    {
+        subject: "openid",
+        dateCreated: "",
+        dateUpdate: ""
+        status: {},
+        profile: {}
+    }
+]
+```
 ## 喜欢
 
 ### 喜欢/不再喜欢某人
@@ -360,7 +388,7 @@ wx.request({
 ```
 
 
-### 获得喜欢某人的列表
+### 获得别人喜欢一个人的列表
 ```
 GET http://[主页]/liked-list
 ```
@@ -381,6 +409,8 @@ wx.request({
 [
     {
         subject: "openid",
+        dateCreated: "",
+        dateUpdate: ""
         status: {},
         profile: {}
     }
