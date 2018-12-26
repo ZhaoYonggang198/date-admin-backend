@@ -13,7 +13,7 @@ class RelationshipCollection {
   async createDocument(subject, object, status) {
     const query = aql`
       UPSERT {subject: ${subject}, object: ${object}}
-      INSERT {subject: ${subject}, object: ${object}, status: ${status}, dataCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
+      INSERT {subject: ${subject}, object: ${object}, status: ${status}, dateCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
       UPDATE {subject: ${subject}, object: ${object}, status: ${status}, updates: OLD.updates + 1, dateUpdate: DATE_ISO8601(DATE_NOW())}
       IN ${this.collection}
       return NEW
@@ -33,7 +33,7 @@ class RelationshipCollection {
   async updateDocument(subject, object, status) {
     const query = aql`
     UPSERT {subject: ${subject}, object: ${object}}
-    INSERT {subject: ${subject}, object: ${object}, status: ${status}, dataCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
+    INSERT {subject: ${subject}, object: ${object}, status: ${status}, dateCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
     UPDATE {subject: ${subject}, object: ${object}, status: ${status}, updates: OLD.updates + 1, dateUpdate: DATE_ISO8601(DATE_NOW())}
     IN ${this.collection}
     return NEW
@@ -54,7 +54,12 @@ class RelationshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.subject == ${subject} and doc.status == true
-        return {object: doc.object, profile: DOCUMENT(CONCAT("UserProfile/",doc.object)), status: DOCUMENT(CONCAT("UserStatus/",doc.object))}
+        return {object: doc.object, 
+            dateCreated: doc.dateCreated, 
+            dateUpdate: doc.dateUpdate,
+            profile: DOCUMENT(CONCAT("UserProfile/",doc.object)),
+            status: DOCUMENT(CONCAT("UserStatus/",doc.object))
+        }
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
@@ -68,7 +73,12 @@ class RelationshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.object == ${object} and doc.status == true
-        return {subject : doc.subject, profile: DOCUMENT(CONCAT("UserProfile/",doc.subject)), status: DOCUMENT(CONCAT("UserStatus/",doc.subject))}
+        return {subject : doc.subject,  
+          dateCreated: doc.dateCreated, 
+          dateUpdate: doc.dateUpdate,
+          profile: DOCUMENT(CONCAT("UserProfile/",doc.subject)),
+          status: DOCUMENT(CONCAT("UserStatus/",doc.subject))
+        }
     `
 
     return await this.db.query(query).then(cursor => cursor.all())

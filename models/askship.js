@@ -16,7 +16,7 @@ class AskshipCollection {
         question: ${question},
         answer: ${answer},
         status: ${status},
-        dataCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
+        dateCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
       IN ${this.collection}
       return NEW
     `
@@ -39,7 +39,7 @@ class AskshipCollection {
         question: ${question},
         answer: ${answer},
         status: ${status},
-        dataCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
+        dateCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
       UPDATE {subject: ${subject}, object: ${object}, questionId: ${questionId}, 
         question: ${question},
         answer: ${answer},

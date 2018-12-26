@@ -16,10 +16,18 @@ const getFavoritingList = buildController(
   async (ctx) => {
     return await relation.getFavoritingList(ctx.query.session_key)
   },
-  err => {logger.error('get favorite list: ' + err.message)}
+  err => {logger.error('get favoriting list: ' + err.message)}
+)
+
+const getFavoritedList = buildController(
+  async (ctx) => {
+    return await relation.getFavoritedList(ctx.query.session_key)
+  },
+  err => {logger.error('get farovited list error: ' + err.message)}
 )
 
 module.exports = {
   'GET /favorite' : getFavoritingList,
-  'POST /favorite': favorite
+  'POST /favorite': favorite,
+  'GET /favorited-list': getFavoritedList
 }

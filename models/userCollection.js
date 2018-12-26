@@ -11,7 +11,7 @@ class UserCollection {
   async createDocument(openid, info) {
     const query = aql`
       UPSERT {_key: ${openid}}
-      INSERT {_key: ${openid}, info: ${info}, dataCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
+      INSERT {_key: ${openid}, info: ${info}, dateCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
       UPDATE {_key: ${openid}, info: ${info}, updates: OLD.updates + 1, dateUpdate: DATE_ISO8601(DATE_NOW())}
       IN ${this.collection}
       return NEW
@@ -32,7 +32,7 @@ class UserCollection {
   async updateDocument(openid, info) {
     const query = aql`
     UPSERT {_key: ${openid}}
-    INSERT {_key: ${openid}, info: ${info}, dataCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
+    INSERT {_key: ${openid}, info: ${info}, dateCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
     UPDATE {_key: ${openid}, info: ${info}, updates: OLD.updates + 1, dateUpdate: DATE_ISO8601(DATE_NOW())}
     IN ${this.collection}
     return NEW
