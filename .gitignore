@@ -8,3 +8,5 @@ static/audio/*
 static/vedio/*
 static/tts/*
 config.json
+*.iml
+.idea/*
