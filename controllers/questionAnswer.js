@@ -1,6 +1,7 @@
 const logger = require('../utils/logger').logger('controller QuestionAnswer');
 const Question = require('../models/question')
 const QA = require('../models/QA')
+const Askship = require('../models/askship')
 const buildController = require('../utils/controller-producer')
 
 const questionAnswer = async (openid) => {
@@ -50,7 +51,7 @@ const askQuestion = buildController(
 const askedList = buildController(
   async (ctx) => {
     logger.debug('get asked list for ', JSON.stringify(ctx.query))
-    return await Question.askedList(ctx.query.session_key)
+    return await Askship.askedList(ctx.query.session_key)
   },
   err => { logger.error('get asked list fail:', err.message) }
 )
@@ -58,7 +59,7 @@ const askedList = buildController(
 const askingList = buildController(
   async (ctx) => {
     logger.debug('get asking list for ', JSON.stringify(ctx.query))
-    return await Question.askedList(ctx.query.session_key)    
+    return await Askship.askedList(ctx.query.session_key)    
   },
   err => { logger.error('get asking list fail:', err.message) }
 )
