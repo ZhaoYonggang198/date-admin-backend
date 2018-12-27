@@ -64,21 +64,43 @@ class AskshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.subject == ${subject} and doc.status == true
-        return {object: doc.object, profile: DOCUMENT(CONCAT("UserProfile/",doc.object)), status: DOCUMENT(CONCAT("UserStatus/",doc.object))}
+        return {key: doc._key, 
+          subject : doc.subject,
+          object: doc.object
+          profile: DOCUMENT(CONCAT("UserProfile/",doc.object)),
+          question: doc.question,
+          answer: doc.answer,
+          status: doc.status,
+          dateCreated: doc.dateCreated,
+          dateUpdate: doc.dateUpdate
+        }
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
       .then(doc => {
         logger.debug('get object user profile list', doc.length)
         return doc
+      },
+      err => {
+        logger.error(`some thing error`, JSON.stringify(query))
+        throw err
       })
   }
 
   async getSubjectUserList(object) {
     const query = aql`
       for doc in ${this.collection}
-        filter doc.object == ${object} and doc.status == true
-        return {key: doc._key, subject : doc.subject, profile: DOCUMENT(CONCAT("UserProfile/",doc.subject)), question: doc.question, answer: doc.answer, status: doc.status}
+        filter doc.object == ${object}
+        return {key: doc._key, 
+          subject : doc.subject,
+          object: doc.object
+          profile: DOCUMENT(CONCAT("UserProfile/",doc.subject)),
+          question: doc.question,
+          answer: doc.answer,
+          status: doc.status,
+          dateCreated: doc.dateCreated,
+          dateUpdate: doc.dateUpdate
+        }
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
@@ -142,9 +164,19 @@ const updateStatus = async (key, status) => {
   return await askshipCollection.updateStatus(key, status)
 }
 
+const askedList = async (object) => {
+  return await askshipCollection.getSubjectUserList(object)
+}
+
+const askingList = async (subject) => {
+  return await askshipCollection.getObjectUserList(subject)
+}
+
 module.exports = {
   putQuestion,
   updateAnswerForAsker,
   updateAnswerForQuestion,
-  updateStatus
+  updateStatus,
+  askedList,
+  askingList
 }

@@ -47,9 +47,27 @@ const askQuestion = buildController(
   err => { logger.error('ask Question  failed: ' + err && err!==null ? err.message : 'unknow error') }
 )
 
+const askedList = buildController(
+  async (ctx) => {
+    logger.debug('get asked list for ', JSON.stringify(ctx.query))
+    return await Question.askedList(ctx.query.session_key)
+  },
+  err => { logger.error('get asked list fail:', err.message) }
+)
+
+const askingList = buildController(
+  async (ctx) => {
+    logger.debug('get asking list for ', JSON.stringify(ctx.query))
+    return await Question.askedList(ctx.query.session_key)    
+  },
+  err => { logger.error('get asking list fail:', err.message) }
+)
+
 module.exports = {
   'GET /question-answer': getQuestionAnswer,
   'POST /public-question/answer': updateAnswer,
   'PUT /public-question/answer': updateAnswer,
-  'POST /ask-question': askQuestion
+  'POST /ask-question': askQuestion,
+  'GET /asked-list': askedList,
+  'GET /asking-list': askingList
 }
