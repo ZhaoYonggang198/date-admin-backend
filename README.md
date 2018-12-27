@@ -439,6 +439,41 @@ wx.request({
 })
 ```
 
+### 获取某个用户被问的问题列表
+```
+GET http://[主页]/asked-list
+```
+
+请求参数
+
+```
+wx.request({
+  url: hostRoot + 'asked-list',
+  method: 'GET',
+  data: {
+      session_key
+  }
+})
+```
+
+### 获取某个用户问别人的问题列表
+
+```
+GET http://[主页]/asking-list
+```
+
+请求参数
+
+```
+wx.request({
+  url: hostRoot + 'asking-list',
+  method: 'GET',
+  data: {
+      session_key
+  }
+})
+```
+
 ## 上传图片
 ```
 http://[主页]/upload/image
