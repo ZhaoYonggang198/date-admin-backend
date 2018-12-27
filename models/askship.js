@@ -63,10 +63,10 @@ class AskshipCollection {
   async getObjectUserList(subject) {
     const query = aql`
       for doc in ${this.collection}
-        filter doc.subject == ${subject} and doc.status == true
+        filter doc.subject == ${subject}
         return {key: doc._key, 
           subject : doc.subject,
-          object: doc.object
+          object: doc.object,
           profile: DOCUMENT(CONCAT("UserProfile/",doc.object)),
           question: doc.question,
           answer: doc.answer,
@@ -93,7 +93,7 @@ class AskshipCollection {
         filter doc.object == ${object}
         return {key: doc._key, 
           subject : doc.subject,
-          object: doc.object
+          object: doc.object,
           profile: DOCUMENT(CONCAT("UserProfile/",doc.subject)),
           question: doc.question,
           answer: doc.answer,
