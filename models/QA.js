@@ -30,13 +30,13 @@ const questionClassify = async (openid, answerOpenid, question) => {
   return result
 }
 
-const askQuestion = async (askerOpenId, answerOpenid, question) => {
+const askQuestion = async (askerOpenId, answerOpenid, question, source) => {
   const classify = await questionClassify(askerOpenId, answerOpenid, question.asr)
 
   let questionId = null
 
   if (!classify) {
-    return await Askship.putQuestion(askerOpenId, answerOpenid, questionId, {url: question.url, asr: question.asr}, null, 'no-answer')
+    return await Askship.putQuestion(askerOpenId, answerOpenid, questionId, {url: question.url, asr: question.asr, source}, null, 'no-answer')
   }
 
   questionId = `${classify['question-id']}`
