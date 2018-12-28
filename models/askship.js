@@ -38,11 +38,13 @@ class AskshipCollection {
       INSERT {subject: ${subject}, object: ${object}, questionId: ${questionId},
         question: ${question},
         answer: ${answer},
+        questionId: ${questionId},
         status: ${status},
         dateCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
       UPDATE {subject: ${subject}, object: ${object}, questionId: ${questionId}, 
         question: ${question},
         answer: ${answer},
+        questionId: ${questionId},
         status: ${status},
         updates: OLD.updates + 1, dateUpdate: DATE_ISO8601(DATE_NOW())}
       IN ${this.collection}
