@@ -101,6 +101,7 @@ class AskshipCollection {
           question: doc.question,
           answer: doc.answer,
           status: doc.status,
+          questionId: doc.questionId,
           dateCreated: doc.dateCreated,
           dateUpdate: doc.dateUpdate
         }
