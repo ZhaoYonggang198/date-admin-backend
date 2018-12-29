@@ -46,14 +46,14 @@ const askQuestion = async (askerOpenId, answerOpenid, question) => {
 
   if (!answer) {
     return await Askship.putQuestion(askerOpenId, answerOpenid, questionId,
-      {url: question.url, asr: question.asr},
+      question,
       null,
       'no-answer'
     )
   }
 
   return await Askship.putQuestion(askerOpenId, answerOpenid, questionId,
-      {url: question.url, asr: question.asr, questionId: classify.questionId},
+      question,
       answer,
       'unread')
 }
