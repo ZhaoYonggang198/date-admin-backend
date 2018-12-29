@@ -27,6 +27,7 @@ class AskshipCollection {
         return doc
       },
       err => {
+        logger.error(query)
         logger.error(`create document for ${this.collectionName} fail ${err.message}`)
         throw(err)
       })
