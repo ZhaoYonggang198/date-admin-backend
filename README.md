@@ -474,6 +474,26 @@ wx.request({
 })
 ```
 
+### 更新某个问题回复的阅读状态
+
+```
+GET http://[主页]/update-qa-status
+```
+
+请求参数
+
+```
+wx.request({
+  url: hostRoot + 'update-qa-status',
+  method: 'GET',
+  data: {
+      session_key,
+      key, //某个问题的key
+      status: "read"
+  }
+})
+```
+
 ## 上传图片
 ```
 http://[主页]/upload/image
