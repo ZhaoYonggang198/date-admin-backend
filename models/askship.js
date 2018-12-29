@@ -16,7 +16,7 @@ class AskshipCollection {
         question: ${question},
         answer: ${answer},
         questionDate: DATE_ISO8601(DATE_NOW()),
-        questionStatus: 'unread'},
+        questionStatus: 'unread'}
       IN ${this.collection}
       return NEW
     `
