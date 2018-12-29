@@ -64,11 +64,22 @@ const askingList = buildController(
   err => { logger.error('get asking list fail:', err.message) }
 )
 
+const updateQAStatus = buildController(
+  async (ctx) => {
+    logger.debug('update QA status ', JSON.stringify(ctx.request.body))
+    await Askship.updateQAStatus(ctx.request.body.key, ctx.request.body.status)
+    return {result: 'ok'}
+  },
+
+  err => logger.error('update qa status error: ', JSON.stringify(ctx.request.body), err.message)
+)
+
 module.exports = {
   'GET /question-answer': getQuestionAnswer,
   'POST /public-question/answer': updateAnswer,
   'PUT /public-question/answer': updateAnswer,
   'POST /ask-question': askQuestion,
   'GET /asked-list': askedList,
-  'GET /asking-list': askingList
+  'GET /asking-list': askingList,
+  'POST /update-qa-status': updateQAStatus
 }

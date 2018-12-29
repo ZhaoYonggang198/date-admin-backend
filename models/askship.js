@@ -176,11 +176,16 @@ const askingList = async (subject) => {
   return await askshipCollection.getObjectUserList(subject)
 }
 
+const updateQAStatus = async (key, status) => {
+  return await askshipCollection.updateStatus(key, status)
+}
+
 module.exports = {
   putQuestion,
   updateAnswerForAsker,
   updateAnswerForQuestion,
   updateStatus,
   askedList,
-  askingList
+  askingList,
+  updateQAStatus
 }
