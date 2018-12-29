@@ -15,8 +15,8 @@ class AskshipCollection {
       INSERT {subject: ${subject}, object: ${object},
         question: ${question},
         answer: ${answer},
-        status: ${status},
-        dateCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
+        questionDate: DATE_ISO8601(DATE_NOW()),
+        questionStatus: 'unread'},
       IN ${this.collection}
       return NEW
     `
@@ -34,19 +34,14 @@ class AskshipCollection {
 
   async updateDocument(subject, object, questionId, question, answer, status) {
     const query = aql`
-      UPSERT {subject: ${subject}, object: ${object}, questionId: ${questionId}}
       INSERT {subject: ${subject}, object: ${object}, questionId: ${questionId},
         question: ${question},
         answer: ${answer},
         questionId: ${questionId},
-        status: ${status},
-        dateCreated: DATE_ISO8601(DATE_NOW()), updates: 1}
-      UPDATE {subject: ${subject}, object: ${object}, questionId: ${questionId}, 
-        question: ${question},
-        answer: ${answer},
-        questionId: ${questionId},
-        status: ${status},
-        updates: OLD.updates + 1, dateUpdate: DATE_ISO8601(DATE_NOW())}
+        questionDate: DATE_ISO8601(DATE_NOW()),
+        answerDate: DATE_ISO8601(DATE_NOW()),
+        questionStatus: 'unread',
+        answerStatus: 'unread'}
       IN ${this.collection}
       return NEW
     `
@@ -66,17 +61,7 @@ class AskshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.subject == ${subject}
-        return {key: doc._key, 
-          subject : doc.subject,
-          object: doc.object,
-          profile: DOCUMENT(CONCAT("UserProfile/",doc.object)),
-          question: doc.question,
-          answer: doc.answer,
-          status: doc.status,
-          questionId: doc.questionId,
-          dateCreated: doc.dateCreated,
-          dateUpdate: doc.dateUpdate
-        }
+        return MERGE(doc, {profile: DOCUMENT(CONCAT("UserProfile/",doc.object))})
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
@@ -94,17 +79,7 @@ class AskshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.object == ${object}
-        return {key: doc._key, 
-          subject : doc.subject,
-          object: doc.object,
-          profile: DOCUMENT(CONCAT("UserProfile/",doc.subject)),
-          question: doc.question,
-          answer: doc.answer,
-          status: doc.status,
-          questionId: doc.questionId,
-          dateCreated: doc.dateCreated,
-          dateUpdate: doc.dateUpdate
-        }
+        return MERGE(doc, {profile: DOCUMENT(CONCAT("UserProfile/",doc.object))})
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
@@ -115,10 +90,14 @@ class AskshipCollection {
   }
 
   async updateAnswerForAsker(key, answer) {
-    return await this.collection.update(key, {answer, status: 'unread'}).then(doc => {
-      logger.debug(`update answer for asker ${key} success`)
-      return doc
-    })
+    return await this.collection.update(key, {
+        answer,
+        answerStatus: 'unread',
+        answerDate: new Date().toISOString()
+      }).then(doc => {
+          logger.debug(`update answer for asker ${key} success`)
+          return doc
+        })
   }
 
   async updateAnswerForQuestion(questionId, answer) {
@@ -126,7 +105,9 @@ class AskshipCollection {
       for doc in ${this.collection}
         filter doc.questionId == ${questionId}
         update doc WITH 
-          {answer: ${answer}, status: 'unread', updates: OLD.updates + 1, dateUpdate: DATE_ISO8601(DATE_NOW())}
+          {answer: ${answer}, answerStatus: 'unread', 
+          answerDate: DATE_ISO8601(DATE_NOW()
+        }
           in ${this.collection}
         return NEW
     `
@@ -137,8 +118,15 @@ class AskshipCollection {
       })
   }
 
-  async updateStatus(key, status) {
-    return await this.collection.update(key, {status}).then(doc => {
+  async updateQuestionStatus(key, status) {
+    return await this.collection.update(key, {questionStatus: status}).then(doc => {
+      logger.debug(`update status ${key} success`)
+      return doc
+    })    
+  }
+
+  async updateAnswerStatus(key, status) {
+    return await this.collection.update(key, {answerStatus: status}).then(doc => {
       logger.debug(`update status ${key} success`)
       return doc
     })    
@@ -176,8 +164,12 @@ const askingList = async (subject) => {
   return await askshipCollection.getObjectUserList(subject)
 }
 
-const updateQAStatus = async (key, status) => {
-  return await askshipCollection.updateStatus(key, status)
+const updateQuestionStatus = async (key, status) => {
+  return await askshipCollection.updateQuestionStatus(key, status)
+}
+
+const updateAnswerStatus = async (key, status) => {
+  return await askshipCollection.updateAnswerStatus(key, status)
 }
 
 module.exports = {
@@ -187,5 +179,6 @@ module.exports = {
   updateStatus,
   askedList,
   askingList,
-  updateQAStatus
+  updateQuestionStatus,
+  updateAnswerStatus
 }

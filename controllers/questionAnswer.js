@@ -64,14 +64,24 @@ const askingList = buildController(
   err => { logger.error('get asking list fail:', err.message) }
 )
 
-const updateQAStatus = buildController(
+const updateQuestionStatus = buildController(
   async (ctx) => {
     logger.debug('update QA status ', JSON.stringify(ctx.request.body))
-    await Askship.updateQAStatus(ctx.request.body.key, ctx.request.body.status)
+    await Askship.updateQuestionStatus(ctx.request.body.key, ctx.request.body.status)
     return {result: 'ok'}
   },
 
   err => logger.error('update qa status error: ', JSON.stringify(ctx.request.body), err.message)
+)
+
+const updateAnswerStatus =  buildController(
+  async (ctx) => {
+    logger.debug('update Answer status ', JSON.stringify(ctx.request.body))
+    await Askship.updateAnswerStatus(ctx.request.body.key, ctx.request.body.status)
+    return {result: 'ok'}
+  },
+
+  err => logger.error('update Answer status error: ', JSON.stringify(ctx.request.body), err.message)
 )
 
 module.exports = {
@@ -81,5 +91,6 @@ module.exports = {
   'POST /ask-question': askQuestion,
   'GET /asked-list': askedList,
   'GET /asking-list': askingList,
-  'POST /update-qa-status': updateQAStatus
+  'POST /question-status': updateQuestionStatus,
+  'POST /answer-status': updateAnswerStatus
 }
