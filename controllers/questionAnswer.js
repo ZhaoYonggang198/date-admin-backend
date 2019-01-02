@@ -59,7 +59,7 @@ const askedList = buildController(
 const askingList = buildController(
   async (ctx) => {
     logger.debug('get asking list for ', JSON.stringify(ctx.query))
-    return await Askship.askedList(ctx.query.session_key)    
+    return await Askship.askingList(ctx.query.session_key)    
   },
   err => { logger.error('get asking list fail:', err.message) }
 )
