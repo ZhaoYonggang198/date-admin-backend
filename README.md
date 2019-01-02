@@ -474,6 +474,27 @@ wx.request({
 })
 ```
 
+### 回答某人问题
+
+```
+POST /personal-question/answer
+```
+
+请求参数
+
+```
+wx.request({
+  url: hostRoot + 'personal-question/answer',
+  method: 'POST',
+  data: {
+      session_key,
+      key,
+      answer: {
+      }
+  }
+})
+```
+
 ### 更新某个问题回复的阅读状态
 
 ```
