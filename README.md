@@ -477,14 +477,14 @@ wx.request({
 ### 更新某个问题回复的阅读状态
 
 ```
-GET http://[主页]/update-qa-status
+POST http://[主页]/question-status
 ```
 
 请求参数
 
 ```
 wx.request({
-  url: hostRoot + 'update-qa-status',
+  url: hostRoot + 'question-status',
   method: 'GET',
   data: {
       session_key,

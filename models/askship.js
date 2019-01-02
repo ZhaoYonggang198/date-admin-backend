@@ -80,7 +80,7 @@ class AskshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.object == ${object}
-        return MERGE(doc, {profile: DOCUMENT(CONCAT("UserProfile/",doc.object))})
+        return MERGE(doc, {profile: DOCUMENT(CONCAT("UserProfile/",doc.subject))})
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
