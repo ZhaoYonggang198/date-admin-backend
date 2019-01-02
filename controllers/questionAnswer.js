@@ -84,6 +84,15 @@ const updateAnswerStatus =  buildController(
   err => logger.error('update Answer status error: ', JSON.stringify(ctx.request.body), err.message)
 )
 
+const updateAnswerForAsker = buildController(
+  async (ctx) => {
+    logger.debug('update Answer for somebody', JSON.stringify(ctx.request.body))
+    await Askship.updateAnswerForAsker(ctx.request.body.key, ctx.request.body.answer)
+    return {result: 'ok'}
+  },
+  err => logger.error('update answer for somebody fail: ', err.message)
+)
+
 module.exports = {
   'GET /question-answer': getQuestionAnswer,
   'POST /public-question/answer': updateAnswer,
@@ -92,5 +101,6 @@ module.exports = {
   'GET /asked-list': askedList,
   'GET /asking-list': askingList,
   'POST /question-status': updateQuestionStatus,
-  'POST /answer-status': updateAnswerStatus
+  'POST /answer-status': updateAnswerStatus,
+  'POST /personal-question/answer': updateAnswerForAsker
 }
