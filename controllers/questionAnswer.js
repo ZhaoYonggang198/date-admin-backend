@@ -66,12 +66,12 @@ const askingList = buildController(
 
 const updateQuestionStatus = buildController(
   async (ctx) => {
-    logger.debug('update QA status ', JSON.stringify(ctx.request.body))
+    logger.debug('update question status ', JSON.stringify(ctx.request.body))
     await Askship.updateQuestionStatus(ctx.request.body.key, ctx.request.body.status)
     return {result: 'ok'}
   },
 
-  err => logger.error('update qa status error: ', JSON.stringify(ctx.request.body), err.message)
+  err => logger.error('update qa status error: ', err.message)
 )
 
 const updateAnswerStatus =  buildController(
@@ -81,7 +81,7 @@ const updateAnswerStatus =  buildController(
     return {result: 'ok'}
   },
 
-  err => logger.error('update Answer status error: ', JSON.stringify(ctx.request.body), err.message)
+  err => logger.error('update Answer status error: ', err.message)
 )
 
 const updateAnswerForAsker = buildController(
