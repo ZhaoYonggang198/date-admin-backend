@@ -87,12 +87,12 @@ class AskshipCollection {
       .then(doc => {
         logger.debug('get subject user profile list', doc.length)
         return doc
-      })
+      })  
   }
 
   async updateAnswerForAsker(key, answer) {
     return await this.collection.update(key, {
-        answer,
+        answer:{answer},
         answerStatus: 'unread',
         answerDate: new Date().toISOString()
       }).then(doc => {
