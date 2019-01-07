@@ -1,4 +1,4 @@
-# Date
+# 小程序后台接口
 
 ## auth
 
@@ -775,4 +775,27 @@ npm install fluent-ffmpeg
     "data": "58600843"
 }
 ```
+
+#API gateway后台接口
+## get-public-question-answer
+
+```
+arguments: {
+    questionId, //标准公共问题id
+    answerId, //回答者的openid
+}
+```
+
+## get-status-list
+ ```
+ arguments: {
+    source: "xiaomi",
+    start: "0",
+    end: "100"  //获取从0到100的用户自我介绍列表
+ }
+ ```
+ 
+ 
+
+
 
