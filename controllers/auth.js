@@ -1,7 +1,7 @@
 const config = require('../config');
 const logger = require('../utils/logger').logger('AUTH');
 const axios = require('axios')
-const UserInfo = require('../models/userInfo')
+const UserInfo = require('../models/userIds')
 const buildController = require('../utils/controller-producer')
 
 const auth = buildController(

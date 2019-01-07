@@ -8,24 +8,6 @@ const db = new ArangoDB(config.arango.userInfo).database
 
 const userIdsCollection = db.collection("UserIds")
 
-async function saveOpenid(openid) {
-  const query = aql`
-    UPSERT {openid: ${openid}}
-    INSERT {openid: ${openid}, status: "unregister", logins: 1, dateCreated: DATE_ISO8601(DATE_NOW())}
-    UPDATE {openid: ${openid}, logins: OLD.logins + 1} in ${userIdsCollection}
-    return {doc: NEW, type: OLD ? 'update' : 'insert'}
-  `
-  return await db.query(query).then(cursor => cursor.next())
-    .then(doc => {
-      logger.debug('save openid success, doc is ', doc)
-      return doc
-    },
-    err => {
-      logger.error('saveOpenid fail ', err.message)
-      logger.error(err)
-    })
-}
-
 const wechatCollection = new Collection(db, 'Wechat')
 
 async function saveWechatInfo(openid, wechat) {
@@ -47,7 +29,6 @@ async function getUserProfile (openid) {
 }
 
 module.exports = {
-  saveOpenid,
   saveWechatInfo,
   getWechatInfo,
   saveUserProfile,
