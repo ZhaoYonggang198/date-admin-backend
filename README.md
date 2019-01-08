@@ -571,6 +571,32 @@ wx.uploadFile({
     }
 }
 ```
+
+## 绑定用户
+### bind
+```
+post http://localhost/bind
+```
+```
+{
+	"session_key":"",
+	"code": 52095,
+	"type": "xiaoai"
+}
+```
+### unbind
+```
+post http://localhost/unbind
+```
+```
+{
+	"session_key":"",
+	"type": "xiaoai"
+}
+```
+
+### 绑定平台
+
 ## 安装依赖
 
 ### node-canvas install
@@ -606,28 +632,6 @@ npm install fluent-ffmpeg
 
 
 ##绑定用户接口
-### 绑定新用户
-
-* 请求方式
-
-``` post http://localhost/binding```
-
-* 参数
-
-```json
-{"openId"    : "oNijH5e8sdGfry-3tQWVN3SgskB0",
- "bindingCode": 70364
-}
-```
-
-* 返回值
-
-```json
-{
-    "result": "success",
-    "state": true
-}
-```
 
 ###查询绑定的设备
 #### 旧接口

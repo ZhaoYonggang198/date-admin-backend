@@ -66,7 +66,8 @@ async function removeUser(openid, type) {
   const query = `
     for doc in UserIds
       filter doc.openid == "${openid}"
-      update doc with {${type}Id: null} in UserIds
+      let newDoc = unset(doc, "${type}Id")
+      update doc with newDoc in UserIds
   `
 
   return await db.query(query).then(
