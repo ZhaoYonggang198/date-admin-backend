@@ -28,7 +28,7 @@ async function saveOpenid(openid) {
 async function getOpenid(userId, userSource) {
   const query = `
     for doc in UserIds
-      filter doc.${userSource}Id == ${userId}
+      filter doc.${userSource}Id == "${userId}"
       return doc.openid
   `
   return await db.query(query).then(cursor => cursor.next())
@@ -48,7 +48,7 @@ async function addUserId(openid, type, userId) {
   const query = `
     for doc in UserIds
       filter doc.openid == ${openid}
-      update doc with {${type}Id: ${userId}} in UserIds
+      update doc with {${type}Id: "${userId}"} in UserIds
   `
 
   return await db.query(query).then(
@@ -63,9 +63,9 @@ async function addUserId(openid, type, userId) {
 }
 
 async function removeUser(openid, type) {
-  const query = aql`
+  const query = `
     for doc in UserIds
-      filter doc.openid == ${openid}
+      filter doc.openid == "${openid}"
       update doc with {${type}Id: null} in UserIds
   `
 
