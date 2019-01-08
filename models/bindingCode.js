@@ -3,7 +3,7 @@ const ArangoDB = require('./arangoDb')
 const config = require('../config');
 const aql = require('arangojs').aql
 
-const db = new ArangoDB(config.arango.userInfo).database
+const db = new ArangoDB(config.arango.waterDrop).database
 
 const collection = db.collection("waitingBindingAccount")
 
