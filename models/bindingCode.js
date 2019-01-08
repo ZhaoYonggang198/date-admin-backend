@@ -19,7 +19,7 @@ const getBindingCode = async (code, source) => {
     },
     err => {
       logger.error('saveOpenid fail ', err.message)
-      logger.error(err)
+      logger.error(query)
       throw err
     })
 }
