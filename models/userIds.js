@@ -81,9 +81,33 @@ async function removeUser(openid, type) {
   )  
 }
 
+async function getBindingPlat(openid) {
+  const query = aql`
+  for doc in ${userIdsCollection}
+    filter doc.openid==${openid}
+    return doc  
+  `
+  return await db.query(query).then(cursor => cursor.next())
+    .then(doc => {
+      logger.debug('save openid success, doc is ', doc)
+      let plat = []
+      for (let prop in doc) {
+        if (prop.endsWith('Id')) {
+          plat.push(prop.replace('Id', ''))
+        }
+      }
+      return plat
+    },
+    err => {
+      logger.error('saveOpenid fail ', err.message)
+      logger.error(err)
+    })
+}
+
 module.exports = {
   saveOpenid,
   getOpenid,
   addUserId,
-  removeUser
+  removeUser,
+  getBindingPlat
 }
