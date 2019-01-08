@@ -5,9 +5,9 @@ const buildController = require('../utils/controller-producer')
 
 const bindUser = buildController(
   async (ctx) => {
-    const code = await bindingCode.getBindingCode(ctx.query.body.code, ctx.request.body.type)
+    const code = await bindingCode.getBindingCode(ctx.request.body.code, ctx.request.body.type)
     if (code) {
-      userIds.addUserId(ctx.query.body.session_key, ctx.request.body.type, code.userId)
+      userIds.addUserId(ctx.request.body.session_key, ctx.request.body.type, code.userId)
       return {result: 'ok'}
     }
   },
@@ -16,7 +16,7 @@ const bindUser = buildController(
 
 const unbindUser = buildController(
   async (ctx) => {
-    await userIds.removeUser(ctx.query.body.session_key, ctx.request.body.type)
+    await userIds.removeUser(ctx.request.body.session_key, ctx.request.body.type)
     return {result: 'ok'}
   },
   err => { logger.error('unbind user failed: ', err.message ) }
@@ -24,7 +24,7 @@ const unbindUser = buildController(
 
 const bindingPlat = buildController(
   async (ctx) => {
-    return await userIds.getBindingPlat(ctx.query.body.session_key)
+    return await userIds.getBindingPlat(ctx.request.body.session_key)
   },
   err => { logger.error('unbind user failed: ', err.message ) }  
 )
