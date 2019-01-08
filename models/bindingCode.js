@@ -12,7 +12,7 @@ const getBindingCode = async (code, source) => {
   filter doc.bindingCode == ${code}  and doc.userType ==${source} and DATE_DIFF(DATE_NOW(), doc.timestamp, 'minute') < 5
   return doc `
 
-  await db.query(query).then(cursor => cursor.next())
+  return await db.query(query).then(cursor => cursor.next())
     .then(doc => {
       logger.debug('get binding code ', doc)
       if (!doc) {
