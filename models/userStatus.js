@@ -16,7 +16,7 @@ class UserStatusCollection extends Collection {
       for doc in ${this.collection}
         sort doc.info.timestamp desc
         limit ${start}, ${end}
-        let profile = DOCUMENT(CONCAT("UserProfile/",doc._key))
+        let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc._key)), "_id", "_rev")
         let object = doc._key
         let favorite = (for item in Favoriteship
           filter item.subject == ${openid} and item.object == object and item.status

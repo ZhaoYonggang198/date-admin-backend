@@ -54,11 +54,13 @@ class RelationshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.subject == ${subject} and doc.status == true
+        let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc.object)), "_id", "_rev")
+        let status = UNSET(DOCUMENT(CONCAT("UserStatus/",doc.object)), "_id", "_rev")
         return {object: doc.object, 
             dateCreated: doc.dateCreated, 
             dateUpdate: doc.dateUpdate,
-            profile: DOCUMENT(CONCAT("UserProfile/",doc.object)),
-            status: DOCUMENT(CONCAT("UserStatus/",doc.object))
+            profile,
+            status
         }
     `
 
@@ -73,11 +75,13 @@ class RelationshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.object == ${object} and doc.status == true
+        let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc.subject)), "_id", "_rev")
+        let status = UNSET(DOCUMENT(CONCAT("UserStatus/",doc.subject)), "_id", "_rev")        
         return {subject : doc.subject,  
           dateCreated: doc.dateCreated, 
           dateUpdate: doc.dateUpdate,
-          profile: DOCUMENT(CONCAT("UserProfile/",doc.subject)),
-          status: DOCUMENT(CONCAT("UserStatus/",doc.subject))
+          profile,
+          status
         }
     `
 
@@ -103,9 +107,11 @@ class FavoriteshipCollection extends RelationshipCollection {
         let likeship = (for item in ${this.likeshipCollection}
           filter item.subject == doc.subject && item.object == doc.object
           return item)
+        let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc.object)), "_id", "_rev")
+        let status = UNSET(DOCUMENT(CONCAT("UserStatus/",doc.object)), "_id", "_rev")  
         return {subject : doc.object,  
-          profile: DOCUMENT(CONCAT("UserProfile/", doc.object)),
-          status: DOCUMENT(CONCAT("UserStatus/", doc.object)),
+          profile,
+          status,
           liking: likeship[0].status,
           favorite: true}
     `

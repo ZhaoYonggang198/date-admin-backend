@@ -795,6 +795,43 @@ arguments: {
  }
  ```
  
+ ```
+[
+        {
+            "status": {
+                "_key": "oPhwN5JExYdDlns_sq2bsJWonSeA",
+                "_id": "UserStatus/oPhwN5JExYdDlns_sq2bsJWonSeA",
+                "_rev": "_X80XPFW--_",
+                "info": {
+                    "asr": "这是一条语音1",
+                    "duration": 18,
+                    "src": "http://localhost/3.mp3",
+                    "timestamp": "Tue Dec 18 2018 14:11:52 GMT+0800 (CST)"
+                },
+                "dateCreated": "2018-12-26T10:18:37.608Z",
+                "updates": 3,
+                "dateUpdate": "2018-12-27T02:58:23.990Z"
+            },
+            "profile": {
+                "_key": "oPhwN5JExYdDlns_sq2bsJWonSeA",
+                "_id": "UserProfile/oPhwN5JExYdDlns_sq2bsJWonSeA",
+                "_rev": "_X80XPFK---",
+                "info": {
+                    "avatar": "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTI07WicskqVY2wR8AzZkMQxYMicmIfQwzPIbSufQpSNjaYK6xfFCcBzGKfHQxrt3dicKR4R0IZJnUjIw/13",
+                    "birthday": "",
+                    "sex": "male",
+                    "username": "我是一个昵称"
+                },
+                "dataCreated": "2018-12-26T04:35:28.096Z",
+                "updates": 9,
+                "dateUpdate": "2018-12-27T02:58:23.986Z"
+            },
+            "favorite": null,
+            "liking": null
+        }
+    ]
+ ```
+ 
  
 
 

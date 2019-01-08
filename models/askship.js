@@ -62,7 +62,8 @@ class AskshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.subject == ${subject}
-        return MERGE(doc, {profile: DOCUMENT(CONCAT("UserProfile/",doc.object))})
+        let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc.object)), "_id", "_rev")
+        return MERGE(doc, {profile})
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
@@ -80,7 +81,8 @@ class AskshipCollection {
     const query = aql`
       for doc in ${this.collection}
         filter doc.object == ${object}
-        return MERGE(doc, {profile: DOCUMENT(CONCAT("UserProfile/",doc.subject))})
+        let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc.subject)), "_id", "_rev")
+        return MERGE(doc, {profile})
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
