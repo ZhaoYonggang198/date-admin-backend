@@ -15,6 +15,9 @@ const getBindingCode = async (code, source) => {
   await db.query(query).then(cursor => cursor.next())
     .then(doc => {
       logger.debug('get binding code ', doc)
+      if (!doc) {
+        throw new Error('wrong bind code')
+      }
       return doc
     },
     err => {
