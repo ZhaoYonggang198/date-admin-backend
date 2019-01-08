@@ -9,6 +9,8 @@ const bindUser = buildController(
     if (code) {
       userIds.addUserId(ctx.request.body.session_key, ctx.request.body.type, code.userId)
       return {result: 'ok'}
+    } else {
+      return {result: 'failed'}
     }
   },
   err => { logger.error('bindUser failed: ' + err.message) }
