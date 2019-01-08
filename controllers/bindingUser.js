@@ -1,82 +1,35 @@
-// var arangoDb = require("../models/arango.js")
-// const logger = require('../utils/logger').logger('bindingUser');
+const bindingCode = require("../models/bindingCode")
+const userIds = require("../models/userIds")
+const logger = require('../utils/logger').logger('bindingUser');
+const buildController = require('../utils/controller-producer')
 
+const bindUser = buildController(
+  async (ctx) => {
+    const code = await bindingCode.getBindingCode(ctx.query.body.code, ctx.request.body.type)
+    if (code) {
+      userIds.addUserId(ctx.query.body.session_key, ctx.request.body.type, code.userId)
+      return {result: 'ok'}
+    }
+  },
+  err => { logger.error('bindUser failed: ' + err.message) }
+)
 
-// //////////////////////////////////////////////////////////////////
-// const bindingUser = async (ctx) => {
-//     try {
-//         const state = await arangoDb.bindingUser(ctx.request.body.openId, ctx.request.body.bindingCode, ctx.request.body.type, ctx.request.body.skill);
-//         ctx.response.type = "application/json";
-//         ctx.response.status = 200;
-//         ctx.response.body = {result : 'success', state : state};
-//     } catch(err) {
-//         ctx.response.status = 404;
-//         ctx.response.body = {result : 'failed', cause : err.toString()};
-//         logger.error(`add survey result error: ` + err.stack);
-//     }
-// };
+const unbindUser = buildController(
+  async (ctx) => {
+    await userIds.removeUser(ctx.query.body.session_key, ctx.request.body.type)
+    return {result: 'ok'}
+  },
+  err => { logger.error('unbind user failed: ', err.message ) }
+)
 
-
-// //////////////////////////////////////////////////////////////////
-// const unbindingUser = async (ctx) => {
-//     try {
-//         const state = await arangoDb.unBindingUser(ctx.request.body.openId, ctx.request.body.type, ctx.request.body.skill);
-//         ctx.response.type = "application/json";
-//         ctx.response.status = 200;
-//         ctx.response.body = {result : 'success', state : state};
-//     } catch(err) {
-//         ctx.response.status = 404;
-//         ctx.response.body = {result : 'failed', cause : err.toString()};
-//         logger.error(`add survey result error: ` + err.stack);
-//     }
-// };
-
-// //////////////////////////////////////////////////////////////////
-// const getBindingUserType = async(ctx) => {
-//     try {
-//         const bindingUserType = await arangoDb.getBindingUserType(ctx.request.query.openId);
-//         ctx.response.type = "application/json";
-//         ctx.response.status = 200;
-//         ctx.response.body = {result : 'success', bindingTypes : bindingUserType};
-//     } catch(err) {
-//         ctx.response.status = 404;
-//         ctx.response.body = {result : 'failed', cause : err.toString()};
-//         logger.error(`add survey result error: ` + err.stack);
-//     }
-// }
-
-// //////////////////////////////////////////////////////////////////
-// const getBindingPlat = async(ctx) => {
-//     try {
-//         const bindingUserType = await arangoDb.getBindingPlat(ctx.request.query.openId);
-//         ctx.response.type = "application/json";
-//         ctx.response.status = 200;
-//         ctx.response.body = {result : 'success', bindingTypes : bindingUserType};
-//     } catch(err) {
-//         ctx.response.status = 404;
-//         ctx.response.body = {result : 'failed', cause : err.toString()};
-//         logger.error(`add survey result error: ` + err.stack);
-//     }
-// }
-
-// //////////////////////////////////////////////////////////////////
-// const getBindingCode = async(ctx) => {
-//     try {
-//         const bindingCode = await arangoDb.getBindingCodeFor(ctx.request.body.userId, ctx.request.body.platform, ctx.request.body.skill);
-//         ctx.response.type = "application/json";
-//         ctx.response.status = 200;
-//         ctx.response.body = {result : 'success', code : bindingCode};
-//     } catch(err) {
-//         ctx.response.status = 404;
-//         ctx.response.body = {result : 'failed', cause : err.toString()};
-//         logger.error(`add survey result error: ` + err.stack);
-//     }
-// }
-
-// module.exports = {
-//     'GET /binding'  : getBindingUserType,
-//     'GET /bindingPlat'  : getBindingPlat,
-//     'POST /bindingCode' : getBindingCode,
-//     'POST /binding' : bindingUser,
-//     'POST /unbinding' : unbindingUser
-// };
+const bindingPlat = buildController(
+  async (ctx) => {
+    return await userIds.getBindingPlat(ctx.query.body.session_key)
+  },
+  err => { logger.error('unbind user failed: ', err.message ) }  
+)
+module.exports = {
+    'GET /bindingPlat'  : bindingPlat,
+    'POST /bind' : bindUser,
+    'POST /unbind' : unbindUser
+};
