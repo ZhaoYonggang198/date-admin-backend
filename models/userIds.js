@@ -26,8 +26,8 @@ async function saveOpenid(openid) {
 }
 
 async function getOpenid(userId, userSource) {
-  const query = aql`
-    for doc in ${userIdsCollection}
+  const query = `
+    for doc in UserIds
       filter doc.${userSource}Id == ${userId}
       return doc.openid
   `
@@ -37,34 +37,36 @@ async function getOpenid(userId, userSource) {
       return doc
     },
     err => {
-      logger.error(err)
+      logger.error(query)
+      logger.error(err.message)
       return null
     })
 }
 
 async function addUserId(openid, type, userId) {
-  const query = aql`
-    for doc in ${userIdsCollection}
+
+  const query = `
+    for doc in UserIds
       filter doc.openid == ${openid}
-      update doc with {${type}Id: ${userId}} in ${userIdsCollection}
+      update doc with {${type}Id: ${userId}} in UserIds
   `
 
   return await db.query(query).then(
-    doc => {
+    () => {
       return
     },
     err => {
-      logger.error(err)
-      throw err
+      logger.error(query)
+      logger.error(err.message)
     }
   )
 }
 
 async function removeUser(openid, type) {
   const query = aql`
-    for doc in ${userIdsCollection}
+    for doc in UserIds
       filter doc.openid == ${openid}
-      update doc with {${type}Id: null} in ${userIdsCollection}
+      update doc with {${type}Id: null} in UserIds
   `
 
   return await db.query(query).then(
