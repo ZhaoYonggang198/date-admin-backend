@@ -47,7 +47,7 @@ async function addUserId(openid, type, userId) {
 
   const query = `
     for doc in UserIds
-      filter doc.openid == ${openid}
+      filter doc.openid == "${openid}"
       update doc with {${type}Id: "${userId}"} in UserIds
   `
 
