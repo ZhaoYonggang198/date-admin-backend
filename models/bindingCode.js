@@ -9,7 +9,7 @@ const collection = db.collection("waitingBindingAccount")
 
 const getBindingCode = async (code, source) => {
   const query = aql`for doc in ${collection} 
-  filter doc.bindingCode == ${code}  and doc.userType ==${source} and DATE_DIFF(DATE_NOW, doc.timestamp, 'minute') < 5
+  filter doc.bindingCode == ${code}  and doc.userType ==${source} and DATE_DIFF(DATE_NOW(), doc.timestamp, 'minute') < 5
   return doc `
 
   await db.query(query).then(cursor => cursor.next())
