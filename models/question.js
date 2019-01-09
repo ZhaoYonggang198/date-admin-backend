@@ -64,7 +64,7 @@ const getAnswer = async (openid, questionId) => {
   const query = aql`
     for doc in ${AnswerCollection}
       filter doc.openid == ${openid} and doc.questionId == ${questionId}
-      return doc
+      return UNSET(doc, '_key', '_id', '_rev')
       `
   return await db.query(query).then(cursor => cursor.next())
     .then(doc => {

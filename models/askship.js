@@ -10,7 +10,7 @@ class AskshipCollection {
     this.collectionName = 'Askship'
   }
 
-  async updateDocumentWithoutQuestionId(subject, object, question, answer, status) {
+  async updateDocumentWithoutQuestionId(subject, object, question, answer) {
     const query = aql`
       INSERT {subject: ${subject}, object: ${object},
         question: ${question},
@@ -33,7 +33,7 @@ class AskshipCollection {
       })
   }
 
-  async updateDocument(subject, object, questionId, question, answer, status) {
+  async updateDocument(subject, object, questionId, question, answer) {
     const query = aql`
       INSERT {subject: ${subject}, object: ${object}, questionId: ${questionId},
         question: ${question},
@@ -140,11 +140,11 @@ const db = new ArangoDB(config.arango.userInfo).database
 
 const askshipCollection = new AskshipCollection(db)
 
-const putQuestion = async (subject, object, questionId, question, answer, status) => {
+const putQuestion = async (subject, object, questionId, question, answer) => {
   if (questionId) {
-    return await askshipCollection.updateDocument(subject, object, questionId, question, answer, status)
+    return await askshipCollection.updateDocument(subject, object, questionId, question, answer)
   } else {
-    return await askshipCollection.updateDocumentWithoutQuestionId(subject, object, question, answer, status)
+    return await askshipCollection.updateDocumentWithoutQuestionId(subject, object, question, answer)
   }
 }
 const updateAnswerForAsker = async (key, answer) => {

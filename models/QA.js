@@ -6,7 +6,6 @@ const Query = require('darwin-sdk').Query;
 const Response = require('darwin-sdk').Response;
 
 const Question  = require('./question')
-
 const Askship = require('./askship')
 
 const chatbot = new Chatbot(config.chatbot_url, config.qa_agent, 'date-backend')
@@ -37,7 +36,7 @@ const askQuestion = async (askerOpenId, answerOpenid, question) => {
 
   if (!classify) {
     return await Askship.putQuestion(askerOpenId, answerOpenid, questionId, 
-      question, null, 'no-answer')
+      question, null)
   }
 
   questionId = `${classify['question-id']}`
@@ -47,15 +46,13 @@ const askQuestion = async (askerOpenId, answerOpenid, question) => {
   if (!answer) {
     return await Askship.putQuestion(askerOpenId, answerOpenid, questionId,
       question,
-      null,
-      'no-answer'
+      null
     )
   }
 
   return await Askship.putQuestion(askerOpenId, answerOpenid, questionId,
       question,
-      answer,
-      'unread')
+      answer)
 }
 
 module.exports = {
