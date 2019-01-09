@@ -3,7 +3,7 @@ const Askship = require('../models/Askship')
 
 const getAnswer = async (userId, param) => {
   var answer = await Question.getAnswer(param.answerId, param.questionId)
-  return answer
+  return answer?answer:{}
 }
 
 const postQuestionAnswer = async (userId, param) => {
