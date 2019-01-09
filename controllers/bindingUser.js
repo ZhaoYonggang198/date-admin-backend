@@ -26,7 +26,7 @@ const unbindUser = buildController(
 
 const bindingPlat = buildController(
   async (ctx) => {
-    return await userIds.getBindingPlat(ctx.request.body.session_key)
+    return await userIds.getBindingPlat(ctx.query.session_key)
   },
   err => { logger.error('unbind user failed: ', err.message ) }  
 )
