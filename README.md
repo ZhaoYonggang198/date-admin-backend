@@ -596,7 +596,20 @@ post http://localhost/unbind
 ```
 
 ### 绑定平台
-
+```
+get http://localhost/bindingPlat
+```
+```
+    {
+        session_key
+        }
+```
+回复数据
+```
+    [
+        xiaoai
+    ]
+```
 ## 安装依赖
 
 ### node-canvas install
@@ -629,156 +642,6 @@ npm install fluent-ffmpeg
 
 
 
-
-
-##绑定用户接口
-
-###查询绑定的设备
-#### 旧接口
-* 请求方式
-
-``` get http://localhost/binding?openid=oNijH5e8sdGfry-3tQWVN3SgskB0```
-
-* 返回值
-
-```json
-{
-    "result": "success",
-    "bindingTypes": [
-        "xiaoai",
-        "dingdong"
-    ]
-}
-```
-
-#### 新接口
-* 请求方式
-
-``` get http://localhost/bindingPlat?openId=oNijH5e8sdGfry-3tQWVN3SgskB0 ```
-
-* 返回值
-
-```json
-{
-    "result": "success",
-    "bindingTypes": [
-        {
-            "platType": "xiaoai"
-        },
-        {
-            "platType": "dingdong",
-            "skill": "course-record"
-        }
-    ]
-}
-```
-
-###查询拼音
-* 请求方式
-
-```get http://localhost/pinyin?sentence=子弹```
-
-* 返回值
-
-```json
-{
-    "result": "success",
-    "data": [
-        [
-            "zǐ"
-        ],
-        [
-            "dàn",
-            "tán"
-        ]
-    ]
-}
-```
-
-###查询积分
-* 请求方式
-
-```get http://localHost/integral?id=oNijH5dOWOgyvX75lpVubHqWILOk```
-
-
-* 返回值
-```json
-{
-    "result": "success",
-    "data": {
-        "totalScore": 1000,
-        "usedScore": 600,
-        "remainScore": 400,
-        "drawTimes": 2
-    }
-}
-```
-
-###查询奖品
-* 请求方式
-
-```get http://localHost/awards?id=oNijH5dOWOgyvX75lpVubHqWILOk```
-
-* 返回值
-```json
-{
-    "result": "success",
-    "data": [
-        {
-            "grand": 1,
-            "awardDesc": "小度在家音箱",
-            "time": "2018-11-17 20:13:51"
-        },
-        {
-            "grand": 1,
-            "awardDesc": "小度在家音箱",
-            "time": "2018-11-17 20:15:39"
-        }
-    ]
-}
-```
-
-
-###抽奖接口
-* 请求方式
-```post http://localhost/luckydraw```
-
-* 参数
-```json
-{
-	"id"    : "oNijH5e8sdGfry-3tQWVN3SgskB0"
-}
-```
-
-* 返回值
-```json
-{
-    "result": "success",
-    "data": {
-        "grand": 2
-    }
-}
-```
-
-###保存中奖联系方式
-* 请求方式
-```post http://localhost/asst/prizeuser```
-
-* 参数
-```json
-{"id"    : "oNijH5dOWOgyvX75lpVubHqWILOk",
- "grand" : 2,
- "phone" : "18629022031"
-}
-```
-
-* 返回值
-```json
-{
-    "result": "success",
-    "data": "58600843"
-}
-```
 
 #API gateway后台接口
 ## get-public-question-answer
