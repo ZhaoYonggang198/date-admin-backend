@@ -9,7 +9,7 @@ const getStatusList = async (userId, param) => {
 }
 
 const getUserProfile = async (userId, param) => {
-  const openid = userIds.getOpenid(userId, param.sourse)
+  const openid = await userIds.getOpenid(userId, param.sourse)
   if (!openid) {
     return {
       status: 'guest',
