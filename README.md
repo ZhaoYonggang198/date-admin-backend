@@ -700,6 +700,34 @@ arguments: {
  ```
  
  
+## get-user-profile
+ ```
+ arguments: {
+    source: "xiaomi"
+ }
+ ```
+ 
+ ```
+"result": {
+    "status": "guest",
+    "profile": null
+}
+    
+或
+    
+"result": {
+"status": "user",
+"profile": {
+    "username": "八块腹肌才换名",
+    "avatar": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eo4iat7p082GpPb6iaic22iaPlficjTsr99M6kSj2aREZUe2s76Bjn1ib1P259s0WBpaubQUjDsIw8AacKw/132",
+    "sex": "male"
+}
+}
+ ```
+ 
+ 
+ 
+ 
 
 
 
