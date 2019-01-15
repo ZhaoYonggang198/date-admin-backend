@@ -1,5 +1,6 @@
 const userIds  = require('../models/userIds')
 const userStatus  = require('../models/userStatus')
+const userInfo = require('../models/userInfo')
 
 const getStatusList = async (userId, param) => {
   const openid = userIds.getOpenid(userId, param.source)
@@ -7,6 +8,23 @@ const getStatusList = async (userId, param) => {
   return answer
 }
 
+const getUserProfile = async (userIds, param) => {
+  const openid = userIds.getOpenid(userId, param.sourse)
+  if (!openid) {
+    return {
+      status: 'guest',
+      profile: null
+    }
+  } else {
+    const profile = await userInfo.getUserProfile(openid)
+    return {
+      status: 'user',
+      profile: profile ? profile.info : null
+    }
+  }
+}
+
 module.exports = {
-  'get-status-list': getStatusList
+  'get-status-list': getStatusList,
+  'get-user-profile': getUserProfile
 }

@@ -6,8 +6,6 @@ const Collection = require('./userCollection').UserCollection
 
 const db = new ArangoDB(config.arango.userInfo).database
 
-const userIdsCollection = db.collection("UserIds")
-
 const wechatCollection = new Collection(db, 'Wechat')
 
 async function saveWechatInfo(openid, wechat) {

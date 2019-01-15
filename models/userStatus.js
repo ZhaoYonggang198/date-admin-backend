@@ -12,7 +12,7 @@ class UserStatusCollection extends Collection {
   }
 
   async getUserStatusListByTimeStamp (openid, start, end) {
-    const query = aql`
+    const query = openid ? aql`
       for doc in ${this.collection}
         sort doc.info.timestamp desc
         limit ${start}, ${end}
@@ -25,6 +25,12 @@ class UserStatusCollection extends Collection {
           filter item.subject == ${openid} and item.object == object and item.status
           return item.status)
         return {status: doc, profile, favorite: favorite[0], liking: liking[0]}
+    `
+    : aql`for doc in ${this.collection}
+        sort doc.info.timestamp desc
+        limit 15
+        let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc._key)), "_id", "_rev")
+        return {status: doc, profile, favorite: false, liking: false}
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
