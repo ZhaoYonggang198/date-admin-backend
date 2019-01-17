@@ -21,8 +21,8 @@ err => {
 
 const getUserStatusList = buildController(
   async ctx => {
-    logger.debug(`get user status list, ${ctx.query.start}, ${ctx.query.end}`)
-    return await UserStatus.getUserStatusList(ctx.query.session_key, parseInt(ctx.query.start), parseInt(ctx.query.end))
+    logger.debug(`get user status list, ${ctx.query.offset}, ${ctx.query.count}`)
+    return await UserStatus.getUserStatusList(ctx.query.session_key, parseInt(ctx.query.offset), parseInt(ctx.query.count))
   },
   err => {
     logger.error('get user status list error: ' + err.message);

@@ -11,11 +11,11 @@ class UserStatusCollection extends Collection {
     super(db, collection)
   }
 
-  async getUserStatusListByTimeStamp (openid, start, end) {
+  async getUserStatusListByTimeStamp (openid, offset, count) {
     const query = openid ? aql`
       for doc in ${this.collection}
         sort doc.info.timestamp desc
-        limit ${start}, ${end}
+        limit ${offset}, ${count}
         let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc._key)), "_id", "_rev")
         let object = doc._key
         let favorite = (for item in Favoriteship
@@ -56,8 +56,8 @@ async function getUserStatus (openid) {
   return await userStatusCollection.getDocument(openid)
 }
 
-async function getUserStatusList (openid, start, end) {
-  return await userStatusCollection.getUserStatusListByTimeStamp(openid, start, end)
+async function getUserStatusList (openid, offset, count) {
+  return await userStatusCollection.getUserStatusListByTimeStamp(openid, offset, count)
 }
 
 module.exports = {
