@@ -14,9 +14,9 @@ class UserStatusCollection extends Collection {
   async getUserStatusListByTimeStamp (openid, offset, count) {
     const query = openid ? aql`
       for doc in ${this.collection}
-        let user = DOCUMENT(CONCAT("UserProfile/",${openid})
+        let user = DOCUMENT(CONCAT("UserProfile/",${openid})).info
         let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc._key)), "_id", "_rev")
-        filter user.sex == 'unknown' or (user.sex == 'male' and profile.sex == 'female') or (user.sex == 'female' and profile.sex == 'male')
+        filter user.sex == 'unknown' or (user.sex == 'male' and profile.info.sex == 'female') or (user.sex == 'female' and profile.info.sex == 'male')
         sort doc.info.timestamp desc
         limit ${offset}, ${count}
         let object = doc._key
