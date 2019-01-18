@@ -13,7 +13,7 @@ async function updateUserHeard(source, userid, heardid) {
     UPSERT {_key: ${source + userid}}
     INSERT {_key: ${source + userid}, logins: 1, first: DATE_ISO8601(DATE_NOW()), heard: [${heardid}], current: ${heardid}}
     UPDATE {_key: ${source + userid}, heard: PUSH(OLD.heard, ${heardid}, true), current: ${heardid}} in ${collection}
-    return UNSET(MERGE(NEW, {status}), "_id", "_key")
+    return UNSET(MERGE(NEW, {status}), "_id", "_rev")
   `
   return await db.query(query).then(cursor => cursor.next())
     .then(doc => {
