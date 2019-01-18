@@ -1,7 +1,7 @@
 const userIds  = require('../models/userIds')
 const userStatus  = require('../models/userStatus')
 const userInfo = require('../models/userInfo')
-const userHeard = require('../models/userHeard')
+const userHeard = require('../models/heard')
 
 const getStatusList = async (userId, param) => {
   const openid = userIds.getOpenid(userId, param.source)
