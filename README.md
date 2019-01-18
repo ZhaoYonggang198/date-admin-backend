@@ -725,6 +725,81 @@ arguments: {
 }
  ```
  
+ ## get-current-status 获取最近一次访问的用户
+ ```
+ {
+"arguments":{"source": "xiaoai"},
+"userId":"darwin_C7J4i4YMagyPEP7wqbMBMg_C_C_",
+"api":"get-current-status"
+}
+```
+
+```
+{
+    "status": {
+        "code": 200,
+        "errorType": "success"
+    },
+    "result": {
+        "_key": "xiaoaidarwin_C7J4i4YMagyPEP7wqbMBMg_C_C_",
+        "current": "darwin_date_end_12345678_1_69",
+        "first": "2019-01-18T12:13:31.072Z",
+        "heard": [
+            "darwin_date_end_12345678_1_116",
+            "darwin_date_end_12345678_1_69"
+        ],
+        "logins": 1,
+        "status": {
+            "_key": "darwin_date_end_12345678_1_69",
+            "dateCreated": "2019-01-10T08:01:47.153Z",
+            "info": {
+                "duration": 18,
+                "asr": "120.mp3",
+                "src": "https://edison.xiaodamp.cn/resource/poem/120.mp3"
+            },
+            "updates": 1
+        }
+    }
+}
+```
+ 
+ ## get-next-status 下一个userstatus
+ ```
+ {
+"arguments":{"source": "xiaoai"},
+"userId":"darwin_C7J4i4YMagyPEP7wqbMBMg_C_C_",
+"api":"get-next-status"
+}
+```
+
+```
+{
+    "status": {
+        "code": 200,
+        "errorType": "success"
+    },
+    "result": {
+        "_key": "xiaoaidarwin_C7J4i4YMagyPEP7wqbMBMg_C_C_",
+        "current": "darwin_date_end_12345678_1_69",
+        "first": "2019-01-18T12:13:31.072Z",
+        "heard": [
+            "darwin_date_end_12345678_1_116",
+            "darwin_date_end_12345678_1_69"
+        ],
+        "logins": 1,
+        "status": {
+            "_key": "darwin_date_end_12345678_1_69",
+            "dateCreated": "2019-01-10T08:01:47.153Z",
+            "info": {
+                "duration": 18,
+                "asr": "120.mp3",
+                "src": "https://edison.xiaodamp.cn/resource/poem/120.mp3"
+            },
+            "updates": 1
+        }
+    }
+}
+```
  
  
  

@@ -11,7 +11,7 @@ async function updateUserHeard(source, userid, heardid) {
   const query = aql`
     let status = UNSET(DOCUMENT(CONCAT("UserStatus/", ${heardid})), "_id", "_rev")
     UPSERT {_key: ${source + userid}}
-    INSERT {_key: ${source + userid}, logins: 1, first: DATE_ISO8601(DATE_NOW()), heard: [${heardid}], current: ${heardid}}
+    INSERT {_key: ${source + userid}, logins: 1, heard: [${heardid}], current: ${heardid}}
     UPDATE {_key: ${source + userid}, heard: PUSH(OLD.heard, ${heardid}, true), current: ${heardid}} in ${collection}
     return UNSET(MERGE(NEW, {status}), "_id", "_rev")
   `
