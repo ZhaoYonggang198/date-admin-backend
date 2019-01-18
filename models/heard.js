@@ -9,11 +9,11 @@ const collection = db.collection("UserHeard")
 
 async function updateUserHeard(source, userid, heardid) {
   const query = aql`
+    let status = UNSET(DOCUMENT(CONCAT("UserStatus/", ${heardid})), "_id", "_rev")
     UPSERT {_key: ${source + userid}}
     INSERT {_key: ${source + userid}, logins: 1, first: DATE_ISO8601(DATE_NOW()), heard: [${heardid}], current: ${heardid}}
     UPDATE {_key: ${source + userid}, heard: PUSH(OLD.heard, ${heardid}, true), current: ${heardid}} in ${collection}
-    let doc = NEW
-    return UNSET(MERGE(doc, {status: UNSET(DOCUMENT(CONCAT("UserStatus/", NEW.current)), "_id", "_rev")}), "_id", "_key")
+    return UNSET(MERGE(NEW, {status}), "_id", "_key")
   `
   return await db.query(query).then(cursor => cursor.next())
     .then(doc => {
