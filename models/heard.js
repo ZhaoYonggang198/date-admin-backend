@@ -43,11 +43,12 @@ async function getCurrentHeard(source, userid) {
     })
 }
 
-async function getNextHeardInUserStatus(heard, sex) {
+async function getNextHeardInUserStatus(source, userid, sex) {
   const userStatusCollection = db.collection("UserStatus")
   const query = aql`
     for doc in ${userStatusCollection}
-      filter ${heard} ALL != doc._key
+      let heard = DOCUMENT(CONCAT("UserStatus/",doc._key))
+      filter heard == null or heard.heard ALL != doc._key
       let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc._key)), "_id", "_rev")
       filter ${sex} == 'unknown' or (${sex} == 'male' and profile.info.sex == 'female') or (${sex} == 'female' and profile.info.sex == 'male')
       SORT RAND()
@@ -67,9 +68,7 @@ async function getNextHeardInUserStatus(heard, sex) {
 }
 
 async function getNextHeard(source, userid, sex) {
-  const userHeard = await collection.document(source+userid)
-  const heard = userHeard ? userHeard.heard : []
-  const nextheard = await getNextHeardInUserStatus(heard, sex)
+  const nextheard = await getNextHeardInUserStatus(source, userid, sex)
   if (nextheard) {
     return await updateUserHeard(source, userid, nextheard._key)  
   } else {
