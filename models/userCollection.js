@@ -51,7 +51,13 @@ class UserCollection {
   }
 
   async getDocument(openid) {
-    return await this.collection.document(openid)
+    try {
+      const doc = await this.collection.document(openid)
+      return doc
+    } catch(err) {
+      logger.error('get document error ', err.message)
+      return null
+    }
   }
 }
 
