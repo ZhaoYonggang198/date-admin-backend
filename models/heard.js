@@ -48,7 +48,7 @@ async function getNextHeardInUserStatus(source, userid, sex) {
   const userStatusCollection = db.collection("UserStatus")
   const query = aql`
     for doc in ${userStatusCollection}
-      let heard = DOCUMENT(CONCAT("UserStatus/",${source + userid}))
+      let heard = DOCUMENT(CONCAT("UserHeard/",${source + userid}))
       filter heard == null or heard.heard ALL != doc._key
       let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc._key)), "_id", "_rev")
       filter ${sex} == 'unknown' or (${sex} == 'male' and profile.info.sex == 'female') or (${sex} == 'female' and profile.info.sex == 'male')
