@@ -1,4 +1,4 @@
-const logger = require('../utils/logger').logger('GuestUser');
+const logger = require('../utils/logger').logger('User Heard');
 const ArangoDB = require('./arangoDb')
 const config = require('../config');
 const aql = require('arangojs').aql
@@ -47,7 +47,7 @@ async function getNextHeardInUserStatus(source, userid, sex) {
   const userStatusCollection = db.collection("UserStatus")
   const query = aql`
     for doc in ${userStatusCollection}
-      let heard = DOCUMENT(CONCAT("UserStatus/",doc._key))
+      let heard = DOCUMENT(CONCAT("UserStatus/",${source + userid}))
       filter heard == null or heard.heard ALL != doc._key
       let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc._key)), "_id", "_rev")
       filter ${sex} == 'unknown' or (${sex} == 'male' and profile.info.sex == 'female') or (${sex} == 'female' and profile.info.sex == 'male')
@@ -57,11 +57,11 @@ async function getNextHeardInUserStatus(source, userid, sex) {
   `
   return await db.query(query).then(cursor => cursor.next())
     .then(doc => {
-      logger.debug('getNextHeardInUserStatus ', doc)
+      logger.debug('get Next Heard In UserStatus ', doc)
       return doc
     },
     err => {
-      logger.error('getNextHeardInUserStatus fail', err.message)
+      logger.error('get Next Heard InUserStatus fail', err.message)
       logger.error(err)
     })
 
