@@ -15,13 +15,23 @@ const postQuestionAnswer = async (userId, param) => {
 const getAskingList = async (userId, param) => {
   const source = param.source
   const openid = await userIds.getOpenid(userId, source)
-  return await Askship.getAskingList(openid)
+  if (openid) {
+    const list = await Askship.getAskingList(openid)
+    return list.filter(item => item.answerStatus == 'unread')
+  } else {
+    return await []
+  }
 }
 
 const getAskedList = async (userId, param) => {
   const source = param.source
   const openid = await userIds.getOpenid(userId, source)
-  return await Askship.getAskedList(openid)
+  if (openid) {
+    const list = await Askship.getAskingList(openid)
+    return list.filter(item => item.questionStatus == 'unread')    
+  } else {
+    return []
+  }
 }
 
 module.exports = {
