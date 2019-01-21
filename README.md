@@ -899,4 +899,19 @@ arguments: {
 ``` 
 
 
+## 提交问别人的问题和得到的答案
+```
+{
+"arguments":{"source": "xiaoai",
+	"questionId": "1",
+	"answerId": "test",  // 被问的人的openid
+	"questionText":"1234", 
+	"media": "123351",
+	"answer": null
+},
+"userId":"darwin-test",
+"api":"post-question-answer"
+}
+```
+
 
