@@ -800,9 +800,103 @@ arguments: {
     }
 }
 ```
+## get-asked-list 获取别人问你的问题
+```
+{
+"arguments":{"source": "xiaoai"},
+"userId":"darwin-test",
+"api":"get-asked-list"
+}
+``` 
+
+```
+[
+{
+
+    "_key": "859047",
+    "answer": {
+        "_key": "548372",
+        "openid": "oPhwN5CHNMjy5JT92jOmkqA_1kOM",
+        "questionId": "12",
+        "answer": {
+            "asr": "我这个职业很神圣，我是在为国家做贡献。",
+            "src": "https://edison.xiaodamp.cn/resource/audio/bfeb0560-09d7-11e9-bf25-fd0ed44efcff.mp3",
+            "duration": 7
+        },
+        "dateCreated": "2018-12-27T13:03:05.754Z",
+        "updates": 1
+    },
+    "answerDate": "2019-01-03T11:03:39.233Z",
+    "answerStatus": "unread",
+    "object": "oPhwN5CHNMjy5JT92jOmkqA_1kOM",
+    "question": {
+        "who": "oPhwN5CHNMjy5JT92jOmkqA_1kOM",
+        "url": "https://edison.xiaodamp.cn/resource/asr/381a4090-0f47-11e9-b040-afe6a6a9cb61.mp3",
+        "asr": "你做什么呢？",
+        "duration": 3
+    },
+    "questionDate": "2019-01-03T11:03:39.233Z",
+    "questionId": "12",
+    "questionStatus": "unread",
+    "subject": "oPhwN5C5lvHS5Nl6wRhUgfGxNic0",
+    "profile": {
+        "_key": "oPhwN5C5lvHS5Nl6wRhUgfGxNic0",
+        "dateCreated": "2018-12-28T12:44:49.929Z",
+        "info": {
+            "username": "粗茶淡饭",
+            "avatar": "https://wx.qlogo.cn/mmopen/vi_32/w2OlzwFOZWeLIeU0ykFfGIm2iaYDTDoP6QRk2CWHtPlq5Tdqq6AWjsEwPsRfTicfVGDUJp7HibHke3kFKCia9CsO5A/132",
+            "sex": "未知"
+        },
+        "updates": 1
+    }
+}
+]
+```
  
- 
- 
+## get-asking-list 获取你问别人的问题
+```
+{
+"arguments":{"source": "xiaoai"},
+"userId":"darwin-test",
+"api":"get-asking-list"
+}
+``` 
+
+```
+[
+    {
+        "_rev": "_Y_MylEe--_",
+        "answer": {
+            "who": "oPhwN5CHNMjy5JT92jOmkqA_1kOM",
+            "url": "https://edison.xiaodamp.cn/resource/asr/d06df4c0-0f53-11e9-b040-afe6a6a9cb61.mp3",
+            "asr": "我是六岁。",
+            "duration": 4
+        },
+        "answerDate": "2019-01-03T12:33:49.663Z",
+        "answerStatus": "unread",
+        "object": "oPhwN5C5lvHS5Nl6wRhUgfGxNic0",
+        "question": {
+            "who": "oPhwN5C5lvHS5Nl6wRhUgfGxNic0",
+            "url": "https://edison.xiaodamp.cn/resource/asr/84e043a0-0e3b-11e9-9ae4-5310b066ba7a.mp3",
+            "asr": "你年龄多大？",
+            "duration": 3
+        },
+        "questionDate": "2019-01-02T03:07:22.523Z",
+        "questionStatus": "read",
+        "subject": "oPhwN5CHNMjy5JT92jOmkqA_1kOM",
+        "profile": {
+            "_key": "oPhwN5C5lvHS5Nl6wRhUgfGxNic0",
+            "dateCreated": "2018-12-28T12:44:49.929Z",
+            "info": {
+                "username": "粗茶淡饭",
+                "avatar": "https://wx.qlogo.cn/mmopen/vi_32/w2OlzwFOZWeLIeU0ykFfGIm2iaYDTDoP6QRk2CWHtPlq5Tdqq6AWjsEwPsRfTicfVGDUJp7HibHke3kFKCia9CsO5A/132",
+                "sex": "未知"
+            },
+            "updates": 1
+        }
+    }
+]
+``` 
 
 
 

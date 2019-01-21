@@ -63,7 +63,7 @@ class AskshipCollection {
       for doc in ${this.collection}
         filter doc.subject == ${subject}
         let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc.object)), "_id", "_rev")
-        return MERGE(doc, {profile})
+        return MERGE(unset(doc, "_id", "_rev"), {profile})
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
@@ -82,7 +82,7 @@ class AskshipCollection {
       for doc in ${this.collection}
         filter doc.object == ${object}
         let profile = UNSET(DOCUMENT(CONCAT("UserProfile/",doc.subject)), "_id", "_rev")
-        return MERGE(doc, {profile})
+        return MERGE(unset(doc, "_id", "_rev"), {profile})
     `
 
     return await this.db.query(query).then(cursor => cursor.all())
