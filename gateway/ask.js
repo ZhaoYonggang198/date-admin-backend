@@ -16,7 +16,7 @@ const getAskingList = async (userId, param) => {
   const source = param.source
   const openid = await userIds.getOpenid(userId, source)
   if (openid) {
-    const list = await Askship.getAskingList(openid)
+    const list = await Askship.askingList(openid)
     return list.filter(item => item.answerStatus == 'unread')
   } else {
     return await []
@@ -27,7 +27,7 @@ const getAskedList = async (userId, param) => {
   const source = param.source
   const openid = await userIds.getOpenid(userId, source)
   if (openid) {
-    const list = await Askship.getAskingList(openid)
+    const list = await Askship.askedList(openid)
     return list.filter(item => item.questionStatus == 'unread')    
   } else {
     return []
