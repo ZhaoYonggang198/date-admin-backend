@@ -9,8 +9,9 @@ const postQuestionAnswer = async (userId, param) => {
   const question = { source, asr: param.questionText, media: param.media }
   const answer = param.answer
 
-  const question = await Askship.putQuestion(openid, answerId, questionId, question, answer)
-  await Askship.updateAnswerStatus(question._key, "read")
+  const result = await Askship.putQuestion(openid, answerId, questionId, question, answer)
+  await Askship.updateAnswerStatus(result._key, "read")
+  return {}
 }
 
 const getAskingList = async (userId, param) => {
