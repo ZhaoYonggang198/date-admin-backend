@@ -914,4 +914,30 @@ arguments: {
 }
 ```
 
+## 修改问题状态
+
+```
+{
+"arguments":{"source": "xiaoai",
+	"key": "", //get-asking-list获得的_key值
+	"status": "read"
+},
+"userId":"darwin-test",
+"api":"post-question-status"
+}
+
+```
+
+## 修改答案已读状态
+```
+{
+"arguments":{"source": "xiaoai",
+	"key": "", //get-asked-list获得的_key值
+	"status": "read"
+},
+"userId":"darwin-test",
+"api":"post-answer-status"
+}
+
+```
 

@@ -29,8 +29,8 @@ const apiHandle = async (req) => {
     let result = null;
     let handler = apiHandlers[api]
     if (handler) {
-        logger.debug(`receive api gateway call: [${api}] userId: ${userId}, params: ${params}`)
-      result = await handler(userId, params)
+        logger.debug(`receive api gateway call: [${api}] userId: ${userId}, params: ${JSON.stringify(params)}`)
+        result = await handler(userId, params)
     } else {
       result = 'unknown gateway api : ' + api;
       logger.error(result);
