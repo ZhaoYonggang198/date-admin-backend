@@ -941,6 +941,20 @@ arguments: {
 
 ```
 
+## 提交对某个问题的答复
+```
+{
+"arguments":{
+    "source": "xiaoai",
+    "key": "", //get-asked-list获得的_key值
+    "answerText": ""
+    "media": ""
+},
+"userId":"darwin-test",
+"api":"post-answer"
+}
+```
+
 ## 获取某个用户的status
 
 ```
