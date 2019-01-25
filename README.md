@@ -941,3 +941,17 @@ arguments: {
 
 ```
 
+## 获取某个用户的status
+
+```
+{
+"arguments":{"source": "xiaoai",
+	"openid": ""
+},
+"userId":"darwin-test",
+"api":"get-status"
+}
+
+```
+
+

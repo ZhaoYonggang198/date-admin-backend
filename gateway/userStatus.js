@@ -2,6 +2,7 @@ const userIds  = require('../models/userIds')
 const userStatus  = require('../models/userStatus')
 const userInfo = require('../models/userInfo')
 const userHeard = require('../models/heard')
+const Askship = require('../models/askship')
 
 const getStatusList = async (userId, param) => {
   const openid = userIds.getOpenid(userId, param.source)
@@ -14,13 +15,19 @@ const getUserProfile = async (userId, param) => {
   if (!openid) {
     return {
       status: 'guest',
-      profile: null
+      profile: null,
+      askingList: [],
+      askedList: []
     }
   } else {
     const profile = await userInfo.getUserProfile(openid)
+    const askingList = await Askship.askingList(openid)
+    const askedList = await Askship.askedList(openid)
     return {
       status: 'user',
-      profile: profile ? profile.info : null
+      profile: profile ? profile.info : null,
+      askingList: askingList.filter(item => item.answerStatus == 'unread'),
+      askedList: askedList.filter(item => item.questionStatus == 'unread') 
     }
   }
 }
@@ -41,9 +48,25 @@ const getNextStatus = async (userId, param) => {
   }
 }
 
+const getUserStatus = async (userId, param) => {
+  const openid = await userIds.getOpenid(userId, param.source)
+
+  if (!openid) {
+    return {}
+  }
+
+  let userStatus = await userStatus.getUserStatus(param.openid)
+  if (!userStatus) {
+    return {}
+  }
+
+  return userStatus
+} 
+
 module.exports = {
   'get-status-list': getStatusList,
   'get-user-profile': getUserProfile,
   'get-current-status': getCurrentStatus,
-  'get-next-status': getNextStatus
+  'get-next-status': getNextStatus,
+  'get-status': getUserStatus
 }
