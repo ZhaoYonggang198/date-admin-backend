@@ -42,8 +42,20 @@ const getAskedList = async (userId, param) => {
   }
 }
 
+const postAnswer = async (userId, param) => {
+  const source = param.source
+  const openid = await userIds.getOpenid(userId, source)
+  if (!openid) {
+    return {}
+  }
+  
+  await Askship.updateAnswerForAsker(param.key, { source, asr: param.answerText, media: param.media, who: openid })
+  return {}
+}
+
 module.exports = {
   'post-question-answer': postQuestionAnswer,
   'get-asking-list': getAskingList,
-  'get-asked-list': getAskedList
+  'get-asked-list': getAskedList,
+  'post-answer': postAnswer
 }
