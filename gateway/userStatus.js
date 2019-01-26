@@ -55,12 +55,12 @@ const getUserStatus = async (userId, param) => {
     return {}
   }
 
-  let userStatus = await userStatus.getUserStatus(param.openid)
-  if (!userStatus) {
+  let status = await userStatus.getUserStatus(param.openid)
+  if (!status) {
     return {}
   }
 
-  return userStatus
+  return status
 } 
 
 module.exports = {
