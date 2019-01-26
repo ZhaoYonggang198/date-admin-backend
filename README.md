@@ -946,8 +946,8 @@ arguments: {
 {
 "arguments":{
     "source": "xiaoai",
-    "key": "", //get-asked-list获得的_key值
-    "answerText": ""
+    "key": "1933863",
+    "answerText": "你在哪个城"
     "media": ""
 },
 "userId":"darwin-test",
