@@ -8,7 +8,7 @@ const postQuestionAnswer = async (userId, param) => {
   const answerId = param.answerId 
   const openid = await userIds.getOpenid(userId, source)
   const question = { source, asr: param.questionText, media: param.media }
-  const answer = param.answer ? param.answer : null
+  const answer = (param.answer && param.answer.answer)? param.answer : null
 
   if (!answerId || !openid) {
     logger.error('invalid paramter')
