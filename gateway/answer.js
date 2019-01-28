@@ -3,7 +3,7 @@ const Askship = require('../models/askship')
 
 const getAnswer = async (userId, param) => {
   var answer = await Question.getAnswer(param.answerId, param.questionId)
-  return answer?answer:{}
+  return answer?answer : {status:"no answer"}
 }
 
 module.exports = {

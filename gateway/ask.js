@@ -12,12 +12,12 @@ const postQuestionAnswer = async (userId, param) => {
 
   if (!answerId || !openid) {
     logger.error('invalid paramter')
-    return {}
+    return {status: "invalid paramter"}
   }
 
   const result = await Askship.putQuestion(openid, answerId, questionId, question, answer)
   await Askship.updateAnswerStatus(result._key, "read")
-  return {}
+  return {status: "ok"}
 }
 
 const getAskingList = async (userId, param) => {
