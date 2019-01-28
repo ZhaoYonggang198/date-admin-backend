@@ -52,12 +52,14 @@ const getUserStatus = async (userId, param) => {
   const openid = await userIds.getOpenid(userId, param.source)
 
   if (!openid) {
-    return {}
+    logger.error('invalid paramter')
+    return {status: "invalid paramter"}
   }
 
   let status = await userStatus.getUserStatus(param.openid)
   if (!status) {
-    return {}
+    logger.error('invalid paramter')
+    return {status: "invalid paramter"}
   }
 
   return status

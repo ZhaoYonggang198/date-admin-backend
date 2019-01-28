@@ -73,7 +73,7 @@ async function getNextHeard(source, userid, sex) {
   if (nextheard) {
     return await updateUserHeard(source, userid, nextheard._key)  
   } else {
-    return {}
+    return {status: "no more status"}
   }
 
 }
