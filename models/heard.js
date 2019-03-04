@@ -19,6 +19,7 @@ async function updateUserHeard(source, userid, heardid) {
     .then(doc => {
       logger.debug('update Guest User Heard ', doc)
       doc.count = doc.heard? doc.heard.length : 0
+      delete(doc.heard)
       return doc
     },
     err => {
@@ -38,6 +39,7 @@ async function getCurrentHeard(source, userid) {
     .then(doc => {
       logger.debug('get Current Heard ', doc)
       doc.count = doc.heard? doc.heard.length : 0
+      delete(doc.heard)
       return doc
     },
     err => {
