@@ -18,6 +18,7 @@ async function updateUserHeard(source, userid, heardid) {
   return await db.query(query).then(cursor => cursor.next())
     .then(doc => {
       logger.debug('update Guest User Heard ', doc)
+      doc.count = doc.heard? doc.heard.length : 0
       return doc
     },
     err => {
@@ -36,6 +37,7 @@ async function getCurrentHeard(source, userid) {
   return await db.query(query).then(cursor => cursor.next())
     .then(doc => {
       logger.debug('get Current Heard ', doc)
+      doc.count = doc.heard? doc.heard.length : 0
       return doc
     },
     err => {
