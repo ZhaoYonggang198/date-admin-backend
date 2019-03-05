@@ -23,6 +23,5 @@ const getUserStatusList = buildController(
 module.exports = {
   'PUT /user-status': saveUserStatus,
   'POST /user-status': saveUserStatus,
-  'GET /user-status': getUserStatus,
   'GET /user-status-list': getUserStatusList
 }
